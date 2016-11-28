@@ -30,6 +30,60 @@ public class frontend {
 		
 		frame.setJMenuBar(menuBar);
 		
+		// Initialize main panel
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new GridBagLayout());
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		
+		frame.add(mainPanel);
 		frame.setVisible(true);
+		
+		JPanel panel = null;
+		GridBagConstraints constraints = null;
+		
+		////////////////
+		// LIST PANEL //
+		////////////////
+		
+		// Add List Panel
+		panel = new pListPane();
+		panel.setPreferredSize(new Dimension(100, 600));
+		//panel.setBorder(new LineBorder(Color.BLACK, 2)); // For debugging
+		
+		// Set constraints for list panel
+		constraints = new GridBagConstraints();
+		constraints.weightx = 1.0;
+		constraints.weighty = 1.0;
+		constraints.anchor = GridBagConstraints.NORTHWEST;
+		
+		mainPanel.add(panel, constraints);
+		
+		//////////////////
+		// BUTTON PANEL //
+		//////////////////
+		
+		// Add Button Panel
+		// TODO: Implement button panel functionality
+		
+		//////////////////
+		// DETAIL PANEL //
+		//////////////////
+		
+		// Add Detail Panel
+		// TODO: Implement detail panel functionality
+		
+		////////////////////
+		// OPTION 1 PANEL //
+		////////////////////
+		
+		// Add Option 1 Panel
+		// TODO: Implement option 1 panel functionality
+		
+		////////////////////
+		// OPTION 2 PANEL //
+		////////////////////
+		
+		// Add Option 2 Panel
+		// TODO: Implement option 2 panel functionality
 	}
 }
