@@ -1,6 +1,6 @@
 *.class
-./.idea
-./.metadata
+.*
+./out
 .classpath
 .project
-propspector.iml
+*.iml

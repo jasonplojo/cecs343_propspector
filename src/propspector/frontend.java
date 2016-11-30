@@ -42,25 +42,65 @@ public class frontend {
 		System.out.println("done!");
 		
 		JPanel panel = null;
+		JPanel lPanel = null;
+		JPanel rPanel = null;
+
 		GridBagConstraints constraints = null;
-		
+
+		///////////////////
+		// LAYOUT PANELS //
+		///////////////////
+
+		// Add left layout panel to main panel
+		System.out.print("Initializing layout panels...");
+		lPanel = new JPanel();
+		lPanel.setLayout(new GridBagLayout());
+		lPanel.setBorder(new LineBorder(Color.BLACK, 2));
+
+		// Set constraints for left layout panel
+		constraints = new GridBagConstraints();
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+		constraints.weightx = 0.0;
+		constraints.weighty = 1.0;
+		constraints.fill = GridBagConstraints.BOTH;
+
+		mainPanel.add(lPanel, constraints);
+
+		// Add right layout panel to main panel
+		rPanel = new JPanel();
+		rPanel.setLayout(new GridBagLayout());
+		rPanel.setBorder(new LineBorder(Color.BLACK, 2));
+
+		// Set constraints for right layout panel
+		constraints = new GridBagConstraints();
+		constraints.gridx = 1;
+		constraints.gridy = 0;
+		constraints.weightx = 0.5;
+		constraints.weighty = 1.0;
+		constraints.fill = GridBagConstraints.BOTH;
+
+		mainPanel.add(rPanel, constraints);
+		System.out.println("done!");
+
 		////////////////
 		// LIST PANEL //
 		////////////////
-		
+
 		// Add List Panel
 		System.out.print("Initializing list panel...");
 		panel = new pListPane();
-		panel.setMinimumSize(new Dimension(200, 700));
-		panel.setBorder(new LineBorder(Color.BLACK, 2)); // For debugging
+		panel.setBorder(new LineBorder(Color.ORANGE, 2)); // For debugging
 		
 		// Set constraints for list panel
 		constraints = new GridBagConstraints();
 		constraints.gridx = 0;
 		constraints.gridy = 0;
+		constraints.weightx = 1.0;
+		constraints.weighty = 1.0;
 		constraints.fill = GridBagConstraints.BOTH;
 		
-		mainPanel.add(panel, constraints);
+		lPanel.add(panel, constraints);
 		System.out.println("done!");
 		
 		//////////////////
@@ -73,16 +113,16 @@ public class frontend {
 		System.out.print("Initializing button panel...");
 		panel = new JPanel();
 		panel.setMinimumSize(new Dimension(100,600));
-		panel.setBorder(new LineBorder(Color.BLACK, 2));
+		panel.setBorder(new LineBorder(Color.ORANGE, 2));
 		
 		constraints = new GridBagConstraints();
 		constraints.weightx = 0.5;
 		constraints.weighty = 0.5;
-		constraints.gridx = 1;
+		constraints.gridx = 0;
 		constraints.gridy = 0;
 		constraints.fill = GridBagConstraints.BOTH;
 		
-		mainPanel.add(panel, constraints);
+		rPanel.add(panel, constraints);
 		System.out.println("done!");
 		
 		//////////////////
@@ -95,16 +135,16 @@ public class frontend {
 		System.out.print("Initializing detail panel...");
 		panel = new JPanel();
 		panel.setMinimumSize(new Dimension(100,100));
-		panel.setBorder(new LineBorder(Color.BLACK, 2));
+		panel.setBorder(new LineBorder(Color.ORANGE, 2));
 
 		constraints = new GridBagConstraints();
 		constraints.weightx = 0.5;
 		constraints.weighty	= 0.5;
-		constraints.gridx = 2;
+		constraints.gridx = 1;
 		constraints.gridy = 0;
 		constraints.fill = GridBagConstraints.BOTH;
 
-		mainPanel.add(panel, constraints);
+		rPanel.add(panel, constraints);
 		System.out.println("done!");
 		
 		////////////////////
@@ -116,16 +156,16 @@ public class frontend {
 		System.out.print("Initializing option 1...");
 		panel = new JPanel();
 		panel.setMinimumSize(new Dimension(100,100));
-		panel.setBorder(new LineBorder(Color.BLACK, 2));
+		panel.setBorder(new LineBorder(Color.ORANGE, 2));
 
 		constraints = new GridBagConstraints();
 		constraints.weightx = 0.5;
 		constraints.weighty = 0.5;
-		constraints.gridx = 1;
+		constraints.gridx = 0;
 		constraints.gridy = 1;
 		constraints.fill = GridBagConstraints.BOTH;
 
-		mainPanel.add(panel, constraints);
+		rPanel.add(panel, constraints);
 		System.out.println("done!");
 		
 		////////////////////
@@ -137,16 +177,16 @@ public class frontend {
 		System.out.print("Initializing option 2...");
 		panel = new JPanel();
 		panel.setMinimumSize(new Dimension(100, 100));
-		panel.setBorder(new LineBorder(Color.BLACK, 2));
+		panel.setBorder(new LineBorder(Color.ORANGE, 2));
 
 		constraints = new GridBagConstraints();
 		constraints.weightx = 0.5;
 		constraints.weighty = 0.5;
-		constraints.gridx = 2;
+		constraints.gridx = 1;
 		constraints.gridy = 1;
 		constraints.fill = GridBagConstraints.BOTH;
 
-		mainPanel.add(panel, constraints);
+		rPanel.add(panel, constraints);
 		System.out.println("done!");
 
 		frame.setVisible(true);
