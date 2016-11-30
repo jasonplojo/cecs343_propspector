@@ -2,6 +2,7 @@ package propspector.gui;
 
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.JLabel;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -9,6 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.border.LineBorder;
+
 import java.util.ArrayList;
 
 import java.awt.Font;
@@ -60,7 +62,8 @@ public class pListPane extends JPanel {
 		// Create scroll pane for list
 		JScrollPane scroll = new JScrollPane(list);
 		scroll.setAlignmentX(LEFT_ALIGNMENT);
-		scroll.setMinimumSize(new Dimension(250,500));
+		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.setMinimumSize(new Dimension(200,700));
 		
 		this.add(scroll);
 		
