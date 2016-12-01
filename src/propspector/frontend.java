@@ -1,6 +1,7 @@
 package propspector;
 
 import propspector.gui.*;
+import propspector.gui.res.pModifyPane;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -10,13 +11,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class frontend {
-	
+
 	// Frame and panel properties
 	private static final int FRAME_WIDTH = 1024;
 	private static final int FRAME_HEIGHT = 768;
 
 	private static final int FRAME_PADDING = 20;
-	
+
 	public static void main(String[] args) {
 		
 		// Initialize frame
@@ -42,10 +43,6 @@ public class frontend {
 		
 		frame.add(mainPanel);
 		System.out.println("done!");
-		
-		JPanel panel = null;
-		JPanel lPanel = null;
-		JPanel rPanel = null;
 
 		GridBagConstraints constraints = null;
 
@@ -55,7 +52,7 @@ public class frontend {
 
 		// Add left layout panel to main panel
 		System.out.print("Initializing layout panels...");
-		lPanel = new JPanel();
+		JPanel lPanel = new JPanel();
 		lPanel.setLayout(new GridBagLayout());
 		lPanel.setBorder(new LineBorder(Color.BLACK, 2));
 
@@ -70,7 +67,7 @@ public class frontend {
 		mainPanel.add(lPanel, constraints);
 
 		// Add right layout panel to main panel
-		rPanel = new JPanel();
+		JPanel rPanel = new JPanel();
 		rPanel.setLayout(new GridBagLayout());
 		rPanel.setBorder(new LineBorder(Color.BLACK, 2));
 
@@ -94,8 +91,8 @@ public class frontend {
 
 		// Add List Panel
 		System.out.print("Initializing list panel...");
-		panel = new pListPane();
-		panel.setBorder(new LineBorder(Color.ORANGE, 2)); // For debugging
+		pListPane listPanel = new pListPane();
+		listPanel.setBorder(new LineBorder(Color.ORANGE, 2)); // For debugging
 		
 		// Set constraints for list panel
 		constraints = new GridBagConstraints();
@@ -108,7 +105,7 @@ public class frontend {
 
 		constraints.fill = GridBagConstraints.BOTH;
 		
-		lPanel.add(panel, constraints);
+		lPanel.add(listPanel, constraints);
 		System.out.println("done!");
 		
 		//////////////////
@@ -119,17 +116,23 @@ public class frontend {
 		// TODO: Implement button panel functionality
 
 		System.out.print("Initializing button panel...");
-		panel = new pButtonPane();
-		panel.setBorder(new LineBorder(Color.ORANGE, 2));
-		
+		pButtonPane buttonPanel = new pButtonPane();
+		buttonPanel.setBorder(new LineBorder(Color.ORANGE, 2));
+
 		constraints = new GridBagConstraints();
 
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 
 		constraints.fill = GridBagConstraints.BOTH;
-		
-		rPanel.add(panel, constraints);
+
+		// Setup button panel listeners
+		buttonPanel.getBackButton().addActionListener(new lBackButton());
+		buttonPanel.getCreateButton().addActionListener(new lCreateButton());
+		buttonPanel.getDeleteButton().addActionListener(new lDeleteButton());
+		buttonPanel.getModifyButton().addActionListener(new lModifyButton());
+
+		rPanel.add(buttonPanel, constraints);
 		System.out.println("done!");
 		
 		//////////////////
@@ -140,8 +143,8 @@ public class frontend {
 		// TODO: Implement detail panel functionality
 
 		System.out.print("Initializing detail panel...");
-		panel = new JPanel();
-		panel.setBorder(new LineBorder(Color.ORANGE, 2));
+		JPanel detailPanel = new JPanel();
+		detailPanel.setBorder(new LineBorder(Color.ORANGE, 2));
 
 		constraints = new GridBagConstraints();
 
@@ -150,18 +153,18 @@ public class frontend {
 
 		constraints.fill = GridBagConstraints.BOTH;
 
-		rPanel.add(panel, constraints);
+		rPanel.add(detailPanel, constraints);
 		System.out.println("done!");
 		
-		////////////////////
-		// OPTION 1 PANEL //
-		////////////////////
-		
-		// Add Option 1 Panel
+		//////////////////
+		// MODIFY PANEL //
+		//////////////////
+
+		// Add Modify Panel
 		// TODO: Implement option 1 panel functionality
-		System.out.print("Initializing option 1...");
-		panel = new JPanel();
-		panel.setBorder(new LineBorder(Color.ORANGE, 2));
+		System.out.print("Initializing Modify panel...");
+		JPanel modifyPanel = new pModifyPane();
+		modifyPanel.setBorder(new LineBorder(Color.ORANGE, 2));
 
 		constraints = new GridBagConstraints();
 
@@ -170,7 +173,7 @@ public class frontend {
 
 		constraints.fill = GridBagConstraints.BOTH;
 
-		rPanel.add(panel, constraints);
+		rPanel.add(modifyPanel, constraints);
 		System.out.println("done!");
 		
 		////////////////////
@@ -180,8 +183,8 @@ public class frontend {
 		// Add Option 2 Panel
 		// TODO: Implement option 2 panel functionality
 		System.out.print("Initializing option 2...");
-		panel = new JPanel();
-		panel.setBorder(new LineBorder(Color.ORANGE, 2));
+		JPanel conditionPanel = new JPanel();
+		conditionPanel.setBorder(new LineBorder(Color.ORANGE, 2));
 
 		constraints = new GridBagConstraints();
 
@@ -193,9 +196,38 @@ public class frontend {
 
 		constraints.fill = GridBagConstraints.BOTH;
 
-		rPanel.add(panel, constraints);
+		rPanel.add(conditionPanel, constraints);
 		System.out.println("done!");
 
 		frame.setVisible(true);
 	}
+
+	///////////////
+	// LISTENERS //
+	///////////////
+
+	private static class lBackButton implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Back button pressed");
+		}
+	}
+
+	private static class lCreateButton implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Create button pressed");
+		}
+	}
+
+	private static class lDeleteButton implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Delete button pressed");
+		}
+	}
+
+	private static class lModifyButton implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("Modify button pressed");
+		}
+	}
+
 }

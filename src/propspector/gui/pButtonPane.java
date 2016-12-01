@@ -26,6 +26,10 @@ public class pButtonPane extends JPanel{
         modifyButton = setupModifyButton();
     }
 
+    ///////////////////
+    // BUTTON SETUPS //
+    ///////////////////
+
     /**
      * Sets up the back button
      * @return The back button
@@ -54,7 +58,7 @@ public class pButtonPane extends JPanel{
         constraints.insets = new Insets(0,0,BUTTON_PADDING,0);
         constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 
-        // Add to the panel and return button
+        // Attach listener, add to the panel, and return button
         this.add(button, constraints);
         return button;
     }
@@ -87,7 +91,7 @@ public class pButtonPane extends JPanel{
         constraints.insets = new Insets(0,0,BUTTON_PADDING,0);
         constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 
-        // Add to the panel and return button
+        // Add to the panel, and return button
         this.add(button, constraints);
         return button;
     }
@@ -120,7 +124,7 @@ public class pButtonPane extends JPanel{
         constraints.insets = new Insets(0,0,BUTTON_PADDING,0);
         constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 
-        // Add to panel and return button
+        // Attach listener, add to the panel, and return button
         this.add(button, constraints);
         return button;
     }
@@ -156,9 +160,22 @@ public class pButtonPane extends JPanel{
         constraints.insets = new Insets(BUTTON_PADDING_TOP,0,BUTTON_PADDING,0);
         constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 
-        // Add button to panel and return button
+        // Attach listener, add to the panel, and return button
         this.add(button, constraints);
         return button;
     }
 
+    /////////////
+    // GETTERS //
+    /////////////
+    public JButton getBackButton()
+    {
+        return backButton;
+    }
+
+    public JButton getCreateButton() { return createButton; }
+
+    public JButton getDeleteButton() { return  deleteButton; }
+
+    public JButton getModifyButton() { return modifyButton; }
 }
