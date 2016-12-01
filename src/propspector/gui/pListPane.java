@@ -14,8 +14,8 @@ import java.util.ArrayList;
 
 public class pListPane extends JPanel {
 
-	public pListPane()
-	{
+	public pListPane() {
+
 		this.setLayout(new GridBagLayout());
 
 		GridBagConstraints constraints = null;
@@ -32,9 +32,6 @@ public class pListPane extends JPanel {
 
 		constraints.ipadx = 0;
 		constraints.ipady = 15;
-
-		constraints.weightx = 0.0;
-		constraints.weighty = 0.0;
 
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		

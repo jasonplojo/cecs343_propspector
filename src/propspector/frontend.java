@@ -14,6 +14,8 @@ public class frontend {
 	// Frame and panel properties
 	private static final int FRAME_WIDTH = 1024;
 	private static final int FRAME_HEIGHT = 768;
+
+	private static final int FRAME_PADDING = 20;
 	
 	public static void main(String[] args) {
 		
@@ -36,7 +38,7 @@ public class frontend {
 		System.out.print("Initializing main panel...");
 		JPanel mainPanel = new JPanel();
 		mainPanel.setLayout(new GridBagLayout());
-		mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(FRAME_PADDING, FRAME_PADDING, FRAME_PADDING, FRAME_PADDING));
 		
 		frame.add(mainPanel);
 		System.out.println("done!");
@@ -59,10 +61,10 @@ public class frontend {
 
 		// Set constraints for left layout panel
 		constraints = new GridBagConstraints();
+
 		constraints.gridx = 0;
 		constraints.gridy = 0;
-		constraints.weightx = 0.0;
-		constraints.weighty = 1.0;
+
 		constraints.fill = GridBagConstraints.BOTH;
 
 		mainPanel.add(lPanel, constraints);
@@ -74,10 +76,13 @@ public class frontend {
 
 		// Set constraints for right layout panel
 		constraints = new GridBagConstraints();
+
 		constraints.gridx = 1;
 		constraints.gridy = 0;
-		constraints.weightx = 0.5;
+
+		constraints.weightx = 1.0;
 		constraints.weighty = 1.0;
+
 		constraints.fill = GridBagConstraints.BOTH;
 
 		mainPanel.add(rPanel, constraints);
@@ -94,10 +99,13 @@ public class frontend {
 		
 		// Set constraints for list panel
 		constraints = new GridBagConstraints();
+
 		constraints.gridx = 0;
 		constraints.gridy = 0;
+
 		constraints.weightx = 1.0;
 		constraints.weighty = 1.0;
+
 		constraints.fill = GridBagConstraints.BOTH;
 		
 		lPanel.add(panel, constraints);
@@ -111,15 +119,14 @@ public class frontend {
 		// TODO: Implement button panel functionality
 
 		System.out.print("Initializing button panel...");
-		panel = new JPanel();
-		panel.setMinimumSize(new Dimension(100,600));
+		panel = new pButtonPane();
 		panel.setBorder(new LineBorder(Color.ORANGE, 2));
 		
 		constraints = new GridBagConstraints();
-		constraints.weightx = 0.5;
-		constraints.weighty = 0.5;
+
 		constraints.gridx = 0;
 		constraints.gridy = 0;
+
 		constraints.fill = GridBagConstraints.BOTH;
 		
 		rPanel.add(panel, constraints);
@@ -134,14 +141,13 @@ public class frontend {
 
 		System.out.print("Initializing detail panel...");
 		panel = new JPanel();
-		panel.setMinimumSize(new Dimension(100,100));
 		panel.setBorder(new LineBorder(Color.ORANGE, 2));
 
 		constraints = new GridBagConstraints();
-		constraints.weightx = 0.5;
-		constraints.weighty	= 0.5;
+
 		constraints.gridx = 1;
 		constraints.gridy = 0;
+
 		constraints.fill = GridBagConstraints.BOTH;
 
 		rPanel.add(panel, constraints);
@@ -155,14 +161,13 @@ public class frontend {
 		// TODO: Implement option 1 panel functionality
 		System.out.print("Initializing option 1...");
 		panel = new JPanel();
-		panel.setMinimumSize(new Dimension(100,100));
 		panel.setBorder(new LineBorder(Color.ORANGE, 2));
 
 		constraints = new GridBagConstraints();
-		constraints.weightx = 0.5;
-		constraints.weighty = 0.5;
+
 		constraints.gridx = 0;
 		constraints.gridy = 1;
+
 		constraints.fill = GridBagConstraints.BOTH;
 
 		rPanel.add(panel, constraints);
@@ -176,14 +181,16 @@ public class frontend {
 		// TODO: Implement option 2 panel functionality
 		System.out.print("Initializing option 2...");
 		panel = new JPanel();
-		panel.setMinimumSize(new Dimension(100, 100));
 		panel.setBorder(new LineBorder(Color.ORANGE, 2));
 
 		constraints = new GridBagConstraints();
-		constraints.weightx = 0.5;
-		constraints.weighty = 0.5;
+
 		constraints.gridx = 1;
 		constraints.gridy = 1;
+
+		constraints.weightx = 1.0;
+		constraints.weighty = 1.0;
+
 		constraints.fill = GridBagConstraints.BOTH;
 
 		rPanel.add(panel, constraints);
