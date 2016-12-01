@@ -1,6 +1,0 @@
-*.class
-.*
-./out
-.classpath
-.project
-*.iml

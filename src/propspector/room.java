@@ -4,12 +4,12 @@ package propspector;
 import java.util.ArrayList;
 
 public class room implements RealEstate {
-private String roomName = new String();
-private int sqFoot;
-private int windowCount;
-private int outletCount;
+protected String roomName = new String();
+protected int sqFoot;
+protected int windowCount;
+protected int outletCount;
 
-ArrayList<InteriorCondition> conditions = new ArrayList<InteriorCondition>();
+protected ArrayList<InteriorCondition> conditions = new ArrayList<InteriorCondition>();
 
 	public room(){
 		sqFoot = 100;
@@ -40,6 +40,11 @@ ArrayList<InteriorCondition> conditions = new ArrayList<InteriorCondition>();
 	public String getName() {
 		return roomName;
 	}
+	
+	public String setName(String str) {
+		roomName = str;
+		return roomName;
+	}
 
 	public String Summarize() {
 		String sum = (roomName + ": "+sqFoot+" sq ft, "+outletCount+" outlets, "+windowCount+" windows - "+listConditions());
@@ -55,7 +60,14 @@ ArrayList<InteriorCondition> conditions = new ArrayList<InteriorCondition>();
 		return (sqFoot+" sq ft, "+outletCount+" outlets, "+windowCount+" windows, "+conditions.size()+" conditions.");
 	}
 	
-	public String toString() {
-		return(roomName+": "+subCount());
+	public String addCount(String str) {
+		conditions.add(new InteriorCondition(str));
+		return str;
 	}
+	
+	public String toString() {
+		return(roomName+": "+subCount()+" conditions.");
+	}
+
+	
 }
