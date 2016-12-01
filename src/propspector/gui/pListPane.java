@@ -7,34 +7,38 @@ import javax.swing.JLabel;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.border.LineBorder;
 
+import java.awt.*;
 import java.util.ArrayList;
-
-import java.awt.Font;
-import java.awt.Dimension;
-import java.awt.Color;
 
 public class pListPane extends JPanel {
 
 	public pListPane()
 	{
-		Box padding = null;
-		
-		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		this.setLayout(new GridBagLayout());
+
+		GridBagConstraints constraints = null;
 		
 		// Setup label
 		JLabel label = new JLabel("Property");
 		label.setAlignmentX(LEFT_ALIGNMENT);
 		label.setAlignmentY(TOP_ALIGNMENT);
+
+		constraints = new GridBagConstraints();
+
+		constraints.gridx = 0;
+		constraints.gridy = 0;
+
+		constraints.ipadx = 0;
+		constraints.ipady = 15;
+
+		constraints.weightx = 0.0;
+		constraints.weighty = 0.0;
+
+		constraints.fill = GridBagConstraints.HORIZONTAL;
 		
-		this.add(label);
-		
-		// Create padding between Label component and List component
-		padding = new Box(BoxLayout.Y_AXIS);
-		this.add(padding.createRigidArea(new Dimension(0,10)));
+		this.add(label, constraints);
 		
 		// Initialize items for list
 		
@@ -63,13 +67,22 @@ public class pListPane extends JPanel {
 		JScrollPane scroll = new JScrollPane(list);
 		scroll.setAlignmentX(LEFT_ALIGNMENT);
 		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scroll.setMinimumSize(new Dimension(200,700));
-		
-		this.add(scroll);
-		
-		// Create padding between List component and main panel padding
-		padding = new Box(BoxLayout.Y_AXIS);
-		this.add(padding.createRigidArea(new Dimension(0,50)));
+		//scroll.setMinimumSize(new Dimension(200,700));
+
+		constraints = new GridBagConstraints();
+
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+
+		constraints.ipadx = 0;
+		constraints.ipady = 15;
+
+		constraints.weightx = 0.0;
+		constraints.weighty = 1.0;
+
+		constraints.fill = GridBagConstraints.VERTICAL;
+
+		this.add(scroll, constraints);
 	}
 	
 	// TODO: Add appropriate listeners for list
