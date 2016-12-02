@@ -34,7 +34,15 @@ public class frontend {
 	private pButtonPane buttonPanel;
 	private pModifyPane modifyPanel;
 
+	private enum displayState { PROPERTY, BUILDING, FLOOR, ROOM }
+
 	private ArrayList<property> properties;
+	private property cProperty;
+	private building cBuilding;
+	private floor cFloor;
+	private room cRoom;
+
+	displayState state;
 
 	public frontend()
 	{
@@ -46,6 +54,8 @@ public class frontend {
 		setupConditionPanel();
 
 		properties = new ArrayList<property>();
+
+		state = displayState.PROPERTY;
 
 		frame.setVisible(true);
 	}
@@ -237,7 +247,7 @@ public class frontend {
 		System.out.println("done!");
 	}
 
-	private void updateList()
+	private void updateProperty()
 	{
 		JList list = listPanel.getList();
 
@@ -249,53 +259,90 @@ public class frontend {
 		list.setModel(model);
 	}
 
+	private void updateBuilding()
+	{
+		JList list = listPanel.getList();
+
+		DefaultListModel model = new DefaultListModel();
+
+		for (building element : cProperty.buildings)
+			model.addElement(element.getName());
+
+		list.setModel(model);
+	}
+
 	///////////////
 	// LISTENERS //
 	///////////////
 
 	private class lBackButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			JList list = listPanel.getList();
 
-			ArrayList<String> newList = new ArrayList<String>();
-			newList.add("Property 1");
-			newList.add("Property 2");
-			newList.add("All your base are belong to us.");
-
-			DefaultListModel model = new DefaultListModel();
-
-			for (String element : newList)
-				model.addElement(element);
-
-			list.setModel(model);
+			switch(state)
+			{
+				case BUILDING:
+					state = displayState.PROPERTY;
+					updateProperty();
+					break;
+			}
 		}
 	}
 
 	private class lCreateButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 
+
+			switch (state) {
+				case PROPERTY:
+					createProperty();
+					break;
+
+				case BUILDING:
+					createBuilding();
+					break;
+			}
+		}
+
+		private void createProperty()
+		{
 			JTextField ownerName = new JTextField();
 			JTextField address = new JTextField();
 			JTextField propertyName = new JTextField();
 			JTextField sqFoot = new JTextField();
 
 			Object[] prompt = {"Owner Name: ", ownerName,
-								"Address: ", address,
-								"Property Name: ", propertyName,
-								"Square Foot: ", sqFoot};
+					"Address: ", address,
+					"Property Name: ", propertyName,
+					"Square Foot: ", sqFoot};
 
 			int option = JOptionPane.showConfirmDialog(null, prompt, "Create Property", JOptionPane.OK_CANCEL_OPTION);
 
 			if (option == JOptionPane.OK_OPTION)
 			{
 				properties.add(new property(ownerName.getText(),
-									address.getText(),
-									propertyName.getText(),
-									Integer.parseInt(sqFoot.getText())
-									));
+						address.getText(),
+						propertyName.getText(),
+						Integer.parseInt(sqFoot.getText())));
 			}
 
-			updateList();
+			updateProperty();
+		}
+
+		private void createBuilding()
+		{
+			JTextField name = new JTextField();
+			JTextField sqFoot = new JTextField();
+
+			Object[] prompt = {"Building Name: ", name,
+								"Square Foot: ", sqFoot};
+
+			int option = JOptionPane.showConfirmDialog(null, prompt, "Create Building", JOptionPane.OK_CANCEL_OPTION);
+
+			if (option == JOptionPane.OK_OPTION)
+			{
+				cProperty.buildings.add(new building(name.getText(), Integer.parseInt(sqFoot.getText())));
+				updateBuilding();
+			}
 
 		}
 	}
@@ -306,15 +353,39 @@ public class frontend {
 
 			if (selection >= 0)
 			{
-				properties.remove(selection);
-				updateList();
+				switch (state)
+				{
+					case PROPERTY:
+						properties.remove(selection);
+						updateProperty();
+						break;
+
+					case BUILDING:
+						cProperty.buildings.remove(selection);
+						updateBuilding();
+						break;
+				}
 			}
 		}
 	}
 
 	private class lModifyButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			int selection = listPanel.getList().getSelectedIndex();
 
+			if (selection >= 0)
+			{
+				switch (state)
+				{
+					case PROPERTY:
+
+						System.out.println("Modify Property");
+						cProperty = properties.get(selection);
+						updateBuilding();
+						state = displayState.BUILDING;
+						//break;
+				}
+			}
 		}
 	}
 }
