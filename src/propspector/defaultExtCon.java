@@ -1,5 +1,9 @@
+//Eric Downie
 package propspector;
-	//because these are default hardcoded values, no mutators
+
+import java.util.Enumeration;
+
+//because these are default hardcoded values, no mutators
 public enum defaultExtCon{ //For storing default exterior conditions - if we decide to keep those
 	PaintPeeling("The paint is peeling.", true), //first value is user-friendly string, second is damage
 	FoundationCracked("The Foundation is cracked.", true),
@@ -32,6 +36,4 @@ public enum defaultExtCon{ //For storing default exterior conditions - if we dec
 	    }
 	
 }
-//use toString for user friendly string for 
-// I could also use a bunch of static final strings as default condition descriptions if this is too cumbersome 
-	//or another interface...
+//Use a static call of defaultExtCon.values() to get all enumeration values.

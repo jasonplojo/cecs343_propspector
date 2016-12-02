@@ -1,3 +1,4 @@
+//Eric Downie
 package propspector;
 	//because these are default hardcoded values, no mutators
 public enum defaultIntCon{ //For storing default interior conditions - if we decide to keep those
@@ -9,7 +10,8 @@ public enum defaultIntCon{ //For storing default interior conditions - if we dec
 	ElectricalDanger("The electrical is dangerously miswired.", true),
 	MissingOutlet("An outlet is missing.", true),
 	DamagedOutlet("An outlet is damaged.", true),
-	PlumbingLeak("The plumbing in the wall is leaking.", true);
+	PlumbingLeak("The plumbing in the wall is leaking.", true),
+	BrokenWindows("Some windows are broken.", true);
 	
 	private String description;
 	private boolean isDamage;
@@ -33,5 +35,4 @@ public enum defaultIntCon{ //For storing default interior conditions - if we dec
 	
 }
 //use toString for user friendly string for 
-// I could also use a bunch of static final strings as default condition descriptions if this is too cumbersome 
-	//or another interface...
+//use a static call of defaultIntCon.values() to get all enumeration values

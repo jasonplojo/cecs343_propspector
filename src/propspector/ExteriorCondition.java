@@ -1,3 +1,4 @@
+//Eric Downie
 package propspector;
 
 public class ExteriorCondition implements condition{
