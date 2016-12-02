@@ -47,7 +47,8 @@ protected ArrayList<InteriorCondition> conditions = new ArrayList<InteriorCondit
 	}
 
 	public String Summarize() {
-		String sum = (roomName + ": "+sqFoot+" sq ft, "+outletCount+" outlets, "+windowCount+" windows - "+listConditions());
+		String sum = (roomName + ": "+sqFoot+" sq ft, "+outletCount+" outlets, "+windowCount
+				+" windows - "+listConditions());
 		return sum;
 	}
 
@@ -66,7 +67,7 @@ protected ArrayList<InteriorCondition> conditions = new ArrayList<InteriorCondit
 	}
 	
 	public String toString() {
-		return(roomName+": "+subCount()+" conditions.");
+		return(roomName+": "+subCount());
 	}
 
 	

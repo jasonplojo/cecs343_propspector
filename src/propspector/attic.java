@@ -1,6 +1,6 @@
 package propspector;
 
-public class attic extends room implements RealEstate{
+public class attic extends room{
 	private boolean isFinished;
 	
 	public attic(){
