@@ -38,20 +38,9 @@ public class pListPane extends JPanel {
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		
 		this.add(label, constraints);
-		
-		// Initialize items for list
-		
-		// TODO: Re-implement to reading from property, currently a place holder
-		ArrayList<String> listItems = new ArrayList<String>();
-		listItems.add("Property 1");
-		listItems.add("Property 2");
-		listItems.add("All your base are belong to us.");
-		
+
 		// Add items to list model
 		DefaultListModel listModel = new DefaultListModel();
-		
-		for (String e : listItems)
-			listModel.addElement(e);
 		
 		// Create list and populate with items from list model
 		pList = new JList();
@@ -66,7 +55,6 @@ public class pListPane extends JPanel {
 		JScrollPane scroll = new JScrollPane(pList);
 		scroll.setAlignmentX(LEFT_ALIGNMENT);
 		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		//scroll.setMinimumSize(new Dimension(200,700));
 
 		constraints = new GridBagConstraints();
 

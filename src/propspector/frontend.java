@@ -1,5 +1,6 @@
 package propspector;
 
+import jdk.nashorn.internal.scripts.JO;
 import propspector.gui.*;
 import propspector.gui.res.pModifyPane;
 
@@ -33,6 +34,8 @@ public class frontend {
 	private pButtonPane buttonPanel;
 	private pModifyPane modifyPanel;
 
+	private ArrayList<property> properties;
+
 	public frontend()
 	{
 		setupFrame();
@@ -41,6 +44,8 @@ public class frontend {
 		setupDetailPanel();
 		setupModifyPanel();
 		setupConditionPanel();
+
+		properties = new ArrayList<property>();
 
 		frame.setVisible(true);
 	}
@@ -232,6 +237,18 @@ public class frontend {
 		System.out.println("done!");
 	}
 
+	private void updateList()
+	{
+		JList list = listPanel.getList();
+
+		DefaultListModel model = new DefaultListModel();
+
+		for (property element : properties)
+			model.addElement(element.getName());
+
+		list.setModel(model);
+	}
+
 	///////////////
 	// LISTENERS //
 	///////////////
@@ -256,32 +273,48 @@ public class frontend {
 
 	private class lCreateButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			System.out.println(listPanel.getList().getSelectedValue());
+
+			JTextField ownerName = new JTextField();
+			JTextField address = new JTextField();
+			JTextField propertyName = new JTextField();
+			JTextField sqFoot = new JTextField();
+
+			Object[] prompt = {"Owner Name: ", ownerName,
+								"Address: ", address,
+								"Property Name: ", propertyName,
+								"Square Foot: ", sqFoot};
+
+			int option = JOptionPane.showConfirmDialog(null, prompt, "Create Property", JOptionPane.OK_CANCEL_OPTION);
+
+			if (option == JOptionPane.OK_OPTION)
+			{
+				properties.add(new property(ownerName.getText(),
+									address.getText(),
+									propertyName.getText(),
+									Integer.parseInt(sqFoot.getText())
+									));
+			}
+
+			updateList();
+
 		}
 	}
 
 	private class lDeleteButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("Delete button pressed");
+			int selection = listPanel.getList().getSelectedIndex();
+
+			if (selection >= 0)
+			{
+				properties.remove(selection);
+				updateList();
+			}
 		}
 	}
 
 	private class lModifyButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			JList list = listPanel.getList();
 
-			ArrayList<String> newList = new ArrayList<String>();
-			newList.add("Dirt");
-			newList.add("Flowers");
-			newList.add("Clovers");
-			newList.add("Blue Moons");
-
-			DefaultListModel model = new DefaultListModel();
-
-			for (String element : newList)
-				model.addElement(element);
-
-			list.setModel(model);
 		}
 	}
 }
