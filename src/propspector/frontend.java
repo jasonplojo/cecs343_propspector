@@ -271,6 +271,30 @@ public class frontend {
 		list.setModel(model);
 	}
 
+	private void updateFloor()
+	{
+		JList list = listPanel.getList();
+
+		DefaultListModel model = new DefaultListModel();
+
+		for (floor element : cBuilding.floors)
+			model.addElement(element.getLevel());
+
+		list.setModel(model);
+	}
+
+	private void updateRoom()
+	{
+		JList list = listPanel.getList();
+
+		DefaultListModel model = new DefaultListModel();
+
+		for (room element : cFloor.rooms)
+			model.addElement(element.getName());
+
+		list.setModel(model);
+	}
+
 	///////////////
 	// LISTENERS //
 	///////////////
@@ -283,6 +307,16 @@ public class frontend {
 				case BUILDING:
 					state = displayState.PROPERTY;
 					updateProperty();
+					break;
+
+				case FLOOR:
+					state = displayState.BUILDING;
+					updateBuilding();
+					break;
+
+				case ROOM:
+					state = displayState.FLOOR;
+					updateFloor();
 					break;
 			}
 		}
@@ -300,6 +334,13 @@ public class frontend {
 				case BUILDING:
 					createBuilding();
 					break;
+
+				case FLOOR:
+					createFloor();
+					break;
+
+				case ROOM:
+					createRoom();
 			}
 		}
 
@@ -343,7 +384,46 @@ public class frontend {
 				cProperty.buildings.add(new building(name.getText(), Integer.parseInt(sqFoot.getText())));
 				updateBuilding();
 			}
+		}
 
+		private void createFloor()
+		{
+			JTextField level = new JTextField();
+
+			Object[] prompt = {"Floor Level: ", level};
+
+			int option = JOptionPane.showConfirmDialog(null, prompt, "Create Floor", JOptionPane.OK_CANCEL_OPTION);
+
+			if (option == JOptionPane.OK_OPTION)
+			{
+				cBuilding.floors.add(new floor(level.getText()));
+				updateFloor();
+			}
+		}
+
+		private void createRoom()
+		{
+			JTextField roomName = new JTextField();
+			JTextField sqFoot = new JTextField();
+			JTextField windowCount = new JTextField();
+			JTextField outletCount = new JTextField();
+
+			Object[] prompt = {"Room Name: ", roomName,
+								"Square Foot: ", sqFoot,
+								"Number of Windows: ", windowCount,
+								"Number of Outlets: ", outletCount};
+
+			int option = JOptionPane.showConfirmDialog(null, prompt, "Create Room", JOptionPane.OK_CANCEL_OPTION);
+
+			if (option == JOptionPane.OK_OPTION)
+			{
+				cFloor.rooms.add(new room(roomName.getText(),
+									Integer.parseInt(sqFoot.getText()),
+									Integer.parseInt(windowCount.getText()),
+									Integer.parseInt(outletCount.getText())));
+
+				updateRoom();
+			}
 		}
 	}
 
@@ -364,6 +444,16 @@ public class frontend {
 						cProperty.buildings.remove(selection);
 						updateBuilding();
 						break;
+
+					case FLOOR:
+						cBuilding.floors.remove(selection);
+						updateFloor();
+						break;
+
+					case ROOM:
+						cFloor.rooms.remove(selection);
+						updateRoom();
+						break;
 				}
 			}
 		}
@@ -378,12 +468,21 @@ public class frontend {
 				switch (state)
 				{
 					case PROPERTY:
-
-						System.out.println("Modify Property");
 						cProperty = properties.get(selection);
 						updateBuilding();
 						state = displayState.BUILDING;
-						//break;
+						break;
+
+					case BUILDING:
+						cBuilding = cProperty.buildings.get(selection);
+						updateFloor();
+						state = displayState.FLOOR;
+						break;
+
+					case FLOOR:
+						cFloor = cBuilding.floors.get(selection);
+						updateRoom();
+						state = displayState.ROOM;
 				}
 			}
 		}
