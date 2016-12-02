@@ -36,6 +36,11 @@ protected ArrayList<InteriorCondition> conditions = new ArrayList<InteriorCondit
 	public int squareFootage() {
 		return sqFoot;
 	}
+	
+	public int setSquareFootage(int sqf){
+		sqFoot = sqf;
+		return sqFoot;
+	}
 
 	public String getName() {
 		return roomName;

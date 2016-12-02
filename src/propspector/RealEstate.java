@@ -1,3 +1,4 @@
+//Eric Downie
 package propspector;
 		//all buildings, rooms, 
 public interface RealEstate {
