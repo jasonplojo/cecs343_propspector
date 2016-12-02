@@ -20,7 +20,7 @@ ArrayList<building> buildings = new ArrayList<building>();
 		sqFoot = 100000;
 	}	
 
-	public property(String ownName, String addre, String name, int sqF, int buildc)
+	public property(String ownName, String addre, String name, int sqF)
 	{
 		ownerName = ownName;
 		address = addre;

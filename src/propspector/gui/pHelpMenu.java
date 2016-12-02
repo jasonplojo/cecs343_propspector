@@ -43,7 +43,6 @@ public class pHelpMenu extends JMenu{
 		@Override
 		public void actionPerformed(ActionEvent event){
 			System.out.println("About has been clicked");
-			JOptionPane pane = new JOptionPane("Eric Downie\nCarl Jason Plojo\nTyren V\n, Aaron");
 		}
 		
 	}
