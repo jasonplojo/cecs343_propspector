@@ -84,14 +84,13 @@ public class pListPane extends JPanel {
 		this.add(scroll, constraints);
 	}
 
-	public void updateList(ArrayList<String> list)
+	/**
+	 * Gets the list
+	 * @return The list
+	 */
+	public JList getList()
 	{
-		DefaultListModel listModel = new DefaultListModel();
-
-		for (String e : list)
-			listModel.addElement(e);
-
-		pList.setModel(listModel);
+		return pList;
 	}
 	
 	// TODO: Add appropriate listeners for list
