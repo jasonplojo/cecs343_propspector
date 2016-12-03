@@ -4,8 +4,7 @@ import sun.java2d.loops.GeneralRenderer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionEvent;
+
 import java.util.ArrayList;
 
 public class pModifyPane extends JPanel{
