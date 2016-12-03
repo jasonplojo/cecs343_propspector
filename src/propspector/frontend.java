@@ -1,7 +1,6 @@
 package propspector;
 
 import propspector.gui.*;
-import propspector.gui.res.pModifyPane;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -208,7 +207,6 @@ public class frontend {
 	private void setupModifyPanel()
 	{
 		// Add Modify Panel
-		// TODO: Implement option 1 panel functionality
 		System.out.print("Initializing Modify panel...");
 		modifyPanel = new pModifyPane();
 		modifyPanel.setBorder(new LineBorder(Color.ORANGE, 2));
@@ -220,6 +218,8 @@ public class frontend {
 
 		constraints.fill = GridBagConstraints.BOTH;
 
+		modifyPanel.getDropList().setVisible(false);
+		modifyPanel.setTitle("");
 		rPanel.add(modifyPanel, constraints);
 		System.out.println("done!");
 	}
@@ -273,6 +273,9 @@ public class frontend {
 
 		listPanel.setProperty(cProperty.getName());
 		buttonPanel.getBackButton().setVisible(true);
+
+		modifyPanel.getDropList().setVisible(true);
+		modifyPanel.setTitle("Building Name");
 	}
 
 	private void updateFloor()
@@ -316,6 +319,8 @@ public class frontend {
 					state = displayState.PROPERTY;
 					updateProperty();
 					listPanel.setProperty("Not Selected");
+					modifyPanel.getDropList().setVisible(false);
+					modifyPanel.setTitle("");
 					break;
 
 				case FLOOR:

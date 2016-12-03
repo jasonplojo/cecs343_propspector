@@ -1,19 +1,18 @@
-package propspector.gui.res;
-
-import sun.java2d.loops.GeneralRenderer;
+package propspector.gui;
 
 import javax.swing.*;
 import java.awt.*;
 
-import java.util.ArrayList;
-
 public class pModifyPane extends JPanel{
+
+    private JComboBox dropList;
+    private JLabel label;
 
     public pModifyPane()
     {
         this.setLayout(new GridBagLayout());
 
-        JLabel label = new JLabel("Room Type");
+        label = new JLabel();
 
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -23,14 +22,7 @@ public class pModifyPane extends JPanel{
         constraints.anchor = GridBagConstraints.FIRST_LINE_START;
         this.add(label, constraints);
 
-        ArrayList<String> room = new ArrayList<String>();
-
-        room.add("VEC 105");
-        room.add("Bed Room");
-        room.add("Man Cave");
-
-        JComboBox dropList = new JComboBox(room.toArray());
-        dropList.setSelectedIndex(0);
+        dropList = new JComboBox();
 
         constraints = new GridBagConstraints();
 
@@ -45,6 +37,17 @@ public class pModifyPane extends JPanel{
         constraints.fill = GridBagConstraints.HORIZONTAL;
 
         this.add(dropList, constraints);
-
     }
+
+    public JComboBox getDropList()
+    {
+        return dropList;
+    }
+
+    public void setTitle(String title)
+    {
+        label.setText(title);
+    }
+
+    
 }
