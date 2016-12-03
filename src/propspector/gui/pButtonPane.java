@@ -55,7 +55,7 @@ public class pButtonPane extends JPanel{
         constraints.gridx = 0;
         constraints.gridy = 0;
 
-        constraints.insets = new Insets(0,0,BUTTON_PADDING,0);
+        constraints.insets = new Insets(0,BUTTON_PADDING,BUTTON_PADDING,0);
         constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 
         // Attach listener, add to the panel, and return button
@@ -88,7 +88,7 @@ public class pButtonPane extends JPanel{
         constraints.gridx = 0;
         constraints.gridy = 1;
 
-        constraints.insets = new Insets(0,0,BUTTON_PADDING,0);
+        constraints.insets = new Insets(0,BUTTON_PADDING,BUTTON_PADDING,0);
         constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 
         // Add to the panel, and return button
@@ -121,7 +121,7 @@ public class pButtonPane extends JPanel{
         constraints.gridx = 0;
         constraints.gridy = 2;
 
-        constraints.insets = new Insets(0,0,BUTTON_PADDING,0);
+        constraints.insets = new Insets(0,BUTTON_PADDING,BUTTON_PADDING,0);
         constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 
         // Attach listener, add to the panel, and return button
@@ -157,7 +157,7 @@ public class pButtonPane extends JPanel{
         constraints.weightx = 1.0;
         constraints.weighty = 1.0;
 
-        constraints.insets = new Insets(BUTTON_PADDING_TOP,0,BUTTON_PADDING,0);
+        constraints.insets = new Insets(BUTTON_PADDING_TOP,BUTTON_PADDING,BUTTON_PADDING,0);
         constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 
         // Attach listener, add to the panel, and return button
