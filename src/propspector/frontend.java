@@ -1,6 +1,5 @@
 package propspector;
 
-import jdk.nashorn.internal.scripts.JO;
 import propspector.gui.*;
 import propspector.gui.res.pModifyPane;
 
@@ -160,8 +159,6 @@ public class frontend {
 	private void setupButtonPanel()
 	{
 		// Add Button Panel
-		// TODO: Implement button panel functionality
-
 		System.out.print("Initializing button panel...");
 		buttonPanel = new pButtonPane();
 		buttonPanel.setBorder(new LineBorder(Color.ORANGE, 2));
@@ -179,6 +176,7 @@ public class frontend {
 		buttonPanel.getDeleteButton().addActionListener(new lDeleteButton());
 		buttonPanel.getModifyButton().addActionListener(new lModifyButton());
 
+		buttonPanel.getBackButton().setVisible(false);
 		rPanel.add(buttonPanel, constraints);
 		System.out.println("done!");
 	}
@@ -257,6 +255,8 @@ public class frontend {
 			model.addElement(element.getName());
 
 		list.setModel(model);
+
+		buttonPanel.getBackButton().setVisible(false);
 	}
 
 	private void updateBuilding()
@@ -268,7 +268,11 @@ public class frontend {
 		for (building element : cProperty.buildings)
 			model.addElement(element.getName());
 
+
 		list.setModel(model);
+
+		listPanel.setProperty(cProperty.getName());
+		buttonPanel.getBackButton().setVisible(true);
 	}
 
 	private void updateFloor()
@@ -281,6 +285,8 @@ public class frontend {
 			model.addElement(element.getLevel());
 
 		list.setModel(model);
+
+		listPanel.setBuilding(cBuilding.getName());
 	}
 
 	private void updateRoom()
@@ -293,6 +299,8 @@ public class frontend {
 			model.addElement(element.getName());
 
 		list.setModel(model);
+
+		listPanel.setFloor(cFloor.getLevel());
 	}
 
 	///////////////
@@ -307,16 +315,19 @@ public class frontend {
 				case BUILDING:
 					state = displayState.PROPERTY;
 					updateProperty();
+					listPanel.setProperty("Not Selected");
 					break;
 
 				case FLOOR:
 					state = displayState.BUILDING;
 					updateBuilding();
+					listPanel.setBuilding("Not Selected");
 					break;
 
 				case ROOM:
 					state = displayState.FLOOR;
 					updateFloor();
+					listPanel.setFloor(0);
 					break;
 			}
 		}
@@ -341,6 +352,7 @@ public class frontend {
 
 				case ROOM:
 					createRoom();
+					break;
 			}
 		}
 
