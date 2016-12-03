@@ -75,5 +75,17 @@ ArrayList<room> rooms = new ArrayList<room>();
 	public String toString() {
 		return(floorName +": "+subCount());
 	}
+
+	@Override
+	public void setcond(String cond) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getcond() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

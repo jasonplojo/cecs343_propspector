@@ -8,7 +8,7 @@ public class building implements RealEstate{
 
 ArrayList<floor> floors = new ArrayList<floor>();	
 ArrayList<ExteriorCondition> exConditions = new ArrayList<ExteriorCondition>();
-	
+String condition;
 	public building()
 	{
 		buildingName = "Building";
@@ -47,10 +47,12 @@ ArrayList<ExteriorCondition> exConditions = new ArrayList<ExteriorCondition>();
 		return sum;
 	}
 
-	public String listConditions() {
-		return exConditions.toString();
+	public void setcond(String str) {
+		condition=str;
 	}
-
+public String getcond(){
+	return condition;
+}
 	public String subCount() {
 		return (sqFoot + "sq ft" + floors.size() + "floor count" );
 	}
@@ -62,6 +64,15 @@ ArrayList<ExteriorCondition> exConditions = new ArrayList<ExteriorCondition>();
 	
 	public String toString() {
 		return(buildingName +": "+subCount());
+	}
+
+	
+	
+
+	@Override
+	public String listConditions() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

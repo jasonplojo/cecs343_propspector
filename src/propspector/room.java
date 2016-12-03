@@ -75,5 +75,16 @@ protected ArrayList<InteriorCondition> conditions = new ArrayList<InteriorCondit
 		return(roomName+": "+subCount());
 	}
 
+	@Override
+	public void setcond(String cond) {
+		// TODO Auto-generated method stub
+	
+	}
+
+	@Override
+	public String getcond() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

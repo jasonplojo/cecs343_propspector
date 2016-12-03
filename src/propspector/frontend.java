@@ -191,7 +191,7 @@ public class frontend {
 		// TODO: Implement detail panel functionality
 
 		System.out.print("Initializing detail panel...");
-		JPanel detailPanel = new JPanel();
+		JPanel detailPanel = new pDetailPane();
 		detailPanel.setBorder(new LineBorder(Color.ORANGE, 2));
 
 		GridBagConstraints constraints = new GridBagConstraints();
@@ -249,14 +249,22 @@ public class frontend {
 
 	
 	private void updateConditionPanel(){
-		if(state==displayState.PROPERTY){
+		modifyDB.getDropList().setVisible(false);
+		modifyDB.setTitle("");
 		
-		
+		if(state==displayState.BUILDING){
+		modifyDB.setExDB();
 		modifyDB.getDropList().setVisible(true);
 		modifyDB.setTitle("Exterior Conditions");
 		}
 		
+		else if(state==displayState.ROOM){
+			modifyDB.setIntDB();
+			modifyDB.getDropList().setVisible(true);
+			modifyDB.setTitle("Interior Conditions");	
+		}
 		
+	
 }
 	
 	
@@ -333,6 +341,7 @@ public class frontend {
 				case BUILDING:
 					state = displayState.PROPERTY;
 					updateProperty();
+					updateConditionPanel();
 					listPanel.setProperty("Not Selected");
 					modifyPanel.getDropList().setVisible(false);
 					modifyPanel.setTitle("");
@@ -341,12 +350,14 @@ public class frontend {
 				case FLOOR:
 					state = displayState.BUILDING;
 					updateBuilding();
+					updateConditionPanel();
 					listPanel.setBuilding("Not Selected");
 					break;
 
 				case ROOM:
 					state = displayState.FLOOR;
 					updateFloor();
+					updateConditionPanel();
 					listPanel.setFloor(0);
 					break;
 			}
@@ -470,19 +481,16 @@ public class frontend {
 					case PROPERTY:
 						properties.remove(selection);
 						updateProperty();
-						
 						break;
 
 					case BUILDING:
 						cProperty.buildings.remove(selection);
 						updateBuilding();
-						updateConditionPanel();
 						break;
 
 					case FLOOR:
 						cBuilding.floors.remove(selection);
 						updateFloor();
-						
 						break;
 
 					case ROOM:
@@ -507,20 +515,24 @@ public class frontend {
 						cProperty = properties.get(selection);
 						updateBuilding();
 						updateConditionPanel();
-						state = displayState.BUILDING;
+					state = displayState.BUILDING;
 						break;
 
 					case BUILDING:
 						cBuilding = cProperty.buildings.get(selection);
 						updateFloor();
-						
+						updateConditionPanel();
 						state = displayState.FLOOR;
 						break;
 
 					case FLOOR:
 						cFloor = cBuilding.floors.get(selection);
 						updateRoom();
+						updateConditionPanel();
 						state = displayState.ROOM;
+						
+					case ROOM:
+						updateConditionPanel();
 				}
 			}
 		}
