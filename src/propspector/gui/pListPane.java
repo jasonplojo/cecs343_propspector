@@ -1,20 +1,21 @@
 package propspector.gui;
 
-import javax.swing.JPanel;
-import javax.swing.ListSelectionModel;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JLabel;
-import javax.swing.DefaultListModel;
-import javax.swing.JList;
-import javax.swing.JScrollPane;
+import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class pListPane extends JPanel {
 
+	private static final int LIST_WIDTH = 200;
+	private static final int LIST_HEIGHT = 500;
+
 	private JList pList;
+	private JScrollPane scroll;
+
+	private JLabel lProperty;
+	private JLabel lBuilding;
+	private JLabel lFloor;
 
 	public pListPane() {
 
@@ -23,35 +24,64 @@ public class pListPane extends JPanel {
 		GridBagConstraints constraints = null;
 		
 		// Setup label
-		JLabel label = new JLabel("Properties");
-		label.setAlignmentX(LEFT_ALIGNMENT);
-		label.setAlignmentY(TOP_ALIGNMENT);
+		lProperty = new JLabel();
+
+		setProperty("Not Selected");
+		lProperty.setHorizontalAlignment(SwingConstants.LEFT);
+		lProperty.setVerticalAlignment(SwingConstants.TOP);
+		lProperty.setMinimumSize(new Dimension(LIST_WIDTH, 20));
+		lProperty.setPreferredSize(new Dimension(LIST_WIDTH, 20));
+		lProperty.setMaximumSize(new Dimension(LIST_WIDTH, 20));
 
 		constraints = new GridBagConstraints();
 
 		constraints.gridx = 0;
 		constraints.gridy = 0;
 
-		constraints.ipadx = 0;
-		constraints.ipady = 15;
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 
-		constraints.fill = GridBagConstraints.HORIZONTAL;
+		this.add(lProperty, constraints);
+
+		// Setup label
+		lBuilding = new JLabel();
+
+		setBuilding("Not Selected");
+		lBuilding.setHorizontalAlignment(SwingConstants.LEFT);
+		lBuilding.setVerticalAlignment(SwingConstants.TOP);
+		lBuilding.setMinimumSize(new Dimension(LIST_WIDTH, 20));
+		lBuilding.setPreferredSize(new Dimension(LIST_WIDTH, 20));
+		lBuilding.setMaximumSize(new Dimension(LIST_WIDTH, 20));
+
+		constraints = new GridBagConstraints();
+
+		constraints.gridx = 0;
+		constraints.gridy = 1;
+
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
 		
-		this.add(label, constraints);
-		
-		// Initialize items for list
-		
-		// TODO: Re-implement to reading from property, currently a place holder
-		ArrayList<String> listItems = new ArrayList<String>();
-		listItems.add("Property 1");
-		listItems.add("Property 2");
-		listItems.add("All your base are belong to us.");
-		
+		this.add(lBuilding, constraints);
+
+		// Setup label
+		lFloor = new JLabel();
+
+		setFloor(0);
+		lFloor.setHorizontalAlignment(SwingConstants.LEFT);
+		lFloor.setVerticalAlignment(SwingConstants.TOP);
+		lFloor.setMinimumSize(new Dimension(LIST_WIDTH, 20));
+		lFloor.setPreferredSize(new Dimension(LIST_WIDTH, 20));
+		lFloor.setMaximumSize(new Dimension(LIST_WIDTH, 20));
+
+		constraints = new GridBagConstraints();
+
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+
+		constraints.anchor = GridBagConstraints.FIRST_LINE_START;
+
+		this.add(lFloor, constraints);
+
 		// Add items to list model
 		DefaultListModel listModel = new DefaultListModel();
-		
-		for (String e : listItems)
-			listModel.addElement(e);
 		
 		// Create list and populate with items from list model
 		pList = new JList();
@@ -63,18 +93,17 @@ public class pListPane extends JPanel {
 		pList.setBorder(new LineBorder(Color.BLACK, 2));
 		
 		// Create scroll pane for list
-		JScrollPane scroll = new JScrollPane(pList);
+		scroll = new JScrollPane(pList);
+		scroll.setMinimumSize(new Dimension(LIST_WIDTH, LIST_HEIGHT));
+		scroll.setPreferredSize(new Dimension(LIST_WIDTH, LIST_HEIGHT));
+		scroll.setMaximumSize(new Dimension(LIST_WIDTH, LIST_HEIGHT));
 		scroll.setAlignmentX(LEFT_ALIGNMENT);
 		scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		//scroll.setMinimumSize(new Dimension(200,700));
 
 		constraints = new GridBagConstraints();
 
 		constraints.gridx = 0;
-		constraints.gridy = 1;
-
-		constraints.ipadx = 0;
-		constraints.ipady = 15;
+		constraints.gridy = 3;
 
 		constraints.weightx = 0.0;
 		constraints.weighty = 1.0;
@@ -91,6 +120,21 @@ public class pListPane extends JPanel {
 	public JList getList()
 	{
 		return pList;
+	}
+
+	public void setProperty(String property)
+	{
+		lProperty.setText("Property: " + property);
+	}
+
+	public void setBuilding(String building)
+	{
+		lBuilding.setText("Building: " + building);
+	}
+
+	public void setFloor(int floor)
+	{
+		lFloor.setText("Floor: " + floor);
 	}
 	
 	// TODO: Add appropriate listeners for list
