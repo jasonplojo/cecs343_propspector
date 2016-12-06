@@ -66,7 +66,7 @@ protected ArrayList<InteriorCondition> conditions = new ArrayList<InteriorCondit
 		return (sqFoot+" sq ft, "+outletCount+" outlets, "+windowCount+" windows, "+conditions.size()+" conditions.");
 	}
 	
-	public String addCount(String str) {
+	public String addCondition(String str) {
 		conditions.add(new InteriorCondition(str));
 		return str;
 	}

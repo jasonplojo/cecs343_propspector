@@ -1,5 +1,5 @@
 package propspector;
 
-public class kitchen {
+public class kitchen extends room {
 
 }

@@ -1,7 +1,6 @@
 //Eric Downie
 package propspector;
 
-import java.util.Enumeration;
 
 //because these are default hardcoded values, no mutators
 public enum defaultExtCon{ //For storing default exterior conditions - if we decide to keep those

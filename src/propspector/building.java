@@ -55,8 +55,13 @@ ArrayList<ExteriorCondition> exConditions = new ArrayList<ExteriorCondition>();
 		return (sqFoot + "sq ft" + floors.size() + "floor count" );
 	}
 
-	public String addCount(String str) {
+	public String addFloor(String str) {
 		floors.add(new floor(str));
+		return str;
+	}
+	
+	public String addCondition(String str){
+		exConditions.add(new ExteriorCondition(str));
 		return str;
 	}
 	
