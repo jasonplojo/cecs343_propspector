@@ -36,11 +36,11 @@ ArrayList<room> rooms = new ArrayList<room>();
 	}
 
 	public String getName() {
-		return null;
+		return floorName;
 	}
 
 	public String setName(String str) {
-		return null;
+		return floorName;
 	}
 	
 	public int getLevel() {
