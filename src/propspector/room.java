@@ -6,8 +6,8 @@ import java.util.ArrayList;
 public class room implements RealEstate {
 protected String roomName = new String();
 protected int sqFoot;
-protected int windowCount;
-protected int outletCount;
+protected int windowCount = 1;
+protected int outletCount = 1;
 
 protected ArrayList<InteriorCondition> conditions = new ArrayList<InteriorCondition>();
 
