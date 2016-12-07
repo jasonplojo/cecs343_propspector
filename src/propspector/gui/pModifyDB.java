@@ -1,6 +1,10 @@
 package propspector.gui;
 
 import javax.swing.*;
+
+import propspector.defaultExtCon;
+import propspector.defaultIntCon;
+
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -14,6 +18,8 @@ public class pModifyDB extends JPanel{
     private String extCon=null;
     private String intCon=null;
     ArrayList<String> options= new ArrayList<String>();
+    defaultExtCon extTest[]; 
+    defaultIntCon intTest[];
     public pModifyDB()
     {
         this.setLayout(new GridBagLayout());
@@ -31,16 +37,7 @@ public class pModifyDB extends JPanel{
     	
        
         dropList = new JComboBox();
-        dropList.addItemListener(
-        		new ItemListener(){
-        			public void itemStateChanged(ItemEvent event) {
-        				if(event.getStateChange()==ItemEvent.SELECTED){
-        					
-        				}
-        					
-        			}
-        		}
-    );
+       
         		
         constraints = new GridBagConstraints();
 
@@ -69,31 +66,11 @@ public class pModifyDB extends JPanel{
 
       constraints.anchor = GridBagConstraints.FIRST_LINE_START;
       this.add(label, constraints);
-      options.add("The paint is peeling.");
-  	options.add("Some walls have holes in them");
-  	options.add("The ceiling is damaged.");
-  	options.add("The ceiling is leaking.");
-  	options.add("The ceiling has popcorn.");
-  	options.add("The electrical is dangerously miswired.");
-  	options.add("An outlet is missing.");
-  	options.add("An outlet is damaged.");
-  	options.add("The plumbing in the wall is leaking.");
-  	options.add("Some windows are broken.");
+    intTest = defaultIntCon.values();
+
   	
+  		dropList=new JComboBox(intTest);
   	
-  	dropList=new JComboBox(options.toArray());
-  	dropList.setSelectedIndex(0);
-  	dropList.addItemListener(
-      		new ItemListener(){
-      			public void itemStateChanged(ItemEvent event) {
-      				if(event.getStateChange()==ItemEvent.SELECTED){
-      					
-      					intCon=options.get(dropList.getSelectedIndex());
-      				}
-      					
-      			}
-      		}
-  );
   	
 
       constraints = new GridBagConstraints();
@@ -128,28 +105,13 @@ public class pModifyDB extends JPanel{
           constraints.anchor = GridBagConstraints.FIRST_LINE_START;
           this.add(label, constraints);
           
-      	
-        options.add("The paint is peeling.");
-      	options.add("The Foundation is cracked.");
-      	options.add("The stucco is damaged.");
-      	options.add("The building has stucco.");
-      	options.add("The building has siding.");
-      	options.add("The siding is damaged.");
-      	options.add("Some walls have holes in them.");
-      	dropList=new JComboBox(options.toArray());
+          		extTest = defaultExtCon.values();
+        
+      	dropList=new JComboBox(extTest);
       	dropList.setSelectedIndex(0);
-      	 dropList.addItemListener(
-         		new ItemListener(){
-         			public void itemStateChanged(ItemEvent event) {
-         				if(event.getStateChange()==ItemEvent.SELECTED){
-         					
-         					extCon=options.get(dropList.getSelectedIndex());
-         				}
-         					
-         			}
-         		}
-     );
-
+      
+      	
+      
           constraints = new GridBagConstraints();
 
           constraints.gridx = 0;
@@ -167,13 +129,12 @@ public class pModifyDB extends JPanel{
   
    
     
-    public String getExterior(){
-    	return extCon;
-    }
-    
-    public String getInterior(){
-    	return intCon;
-    }
+    private JComboBox getdropList() {
+	return dropList;
+		
+	}
+
+
     public JComboBox getDropList()
     {
         return dropList;
@@ -183,6 +144,16 @@ public class pModifyDB extends JPanel{
     {
         label.setText(title);
     }
-
     
+    public ArrayList<String> getOptions()
+    {
+		return options;
+     }
+
+public defaultExtCon[] getExteriorCon(){
+	return extTest;
+}
+public defaultIntCon[] getInteriorCon(){
+	return intTest;
+}
 }

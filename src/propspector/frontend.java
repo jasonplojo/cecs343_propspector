@@ -7,6 +7,8 @@ import javax.swing.border.LineBorder;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 
@@ -40,9 +42,10 @@ public class frontend {
 	private building cBuilding;
 	private floor cFloor;
 	private room cRoom;
-
+	
+	
 	displayState state;
-
+	JComboBox dropList;
 	public frontend()
 	{
 		setupFrame();
@@ -251,21 +254,49 @@ public class frontend {
 	private void updateConditionPanel(){
 		modifyDB.getDropList().setVisible(false);
 		modifyDB.setTitle("");
-		
 		if(state==displayState.BUILDING){
 		modifyDB.setExDB();
 		modifyDB.getDropList().setVisible(true);
 		modifyDB.setTitle("Exterior Conditions");
+		  dropList=modifyDB.getDropList();
+		dropList.addItemListener(
+         		new ItemListener(){
+         			public void itemStateChanged(ItemEvent event) {
+         				if(event.getStateChange()==ItemEvent.SELECTED){
+         					
+         				String exCon=dropList.getSelectedItem().toString();
+         				ExteriorCondition  temp= new ExteriorCondition(exCon);
+         					cBuilding.exConditions.add(temp);
+         				}
+         					
+         			}
+         		}
+         		
+				);
+
+		
 		}
 		
 		else if(state==displayState.ROOM){
 			modifyDB.setIntDB();
 			modifyDB.getDropList().setVisible(true);
 			modifyDB.setTitle("Interior Conditions");	
+			 dropList=modifyDB.getDropList();
+				dropList.addItemListener(
+		         		new ItemListener(){
+		         			public void itemStateChanged(ItemEvent event) {
+		         				if(event.getStateChange()==ItemEvent.SELECTED){
+		         					
+		         					String inCon=dropList.getSelectedItem().toString();
+		         					InteriorCondition temp= new InteriorCondition(inCon);
+		         					cRoom.conditions.add(temp);
+		         				}
+		         					
+		         			}
+		         		}
+		     );
 		}
-		
-	
-}
+	}
 	
 	
 	private void updateProperty()
