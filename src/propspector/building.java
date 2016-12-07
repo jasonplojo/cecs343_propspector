@@ -31,7 +31,6 @@ String condition;
 		return sqFoot;
 	}
 
-
 	public String getName() {
 		return buildingName;
 	}
@@ -67,9 +66,7 @@ public String getcond(){
 	}
 
 	
-	
-
-	@Override
+@Override
 	public String listConditions() {
 		// TODO Auto-generated method stub
 		return null;

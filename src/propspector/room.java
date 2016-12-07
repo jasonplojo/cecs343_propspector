@@ -31,8 +31,7 @@ protected ArrayList<InteriorCondition> conditions = new ArrayList<InteriorCondit
 		windowCount = winC;
 		outletCount = outC;
 	}
-
-
+	
 	public int squareFootage() {
 		return sqFoot;
 	}
