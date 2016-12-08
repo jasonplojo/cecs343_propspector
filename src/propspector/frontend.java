@@ -1,20 +1,21 @@
 package propspector;
 
-import jdk.nashorn.internal.scripts.JO;
 import propspector.gui.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.util.ArrayList;
 
 public class frontend {
 
 	public static void main(String[] args) {
-		frontend mainApp = new frontend();
+		new frontend();
 	}
 
 	// Frame and panel properties
@@ -72,7 +73,11 @@ public class frontend {
 		// Initialize Top Menu Bar
 		JMenuBar menuBar = new JMenuBar();
 
-		menuBar.add(new pFileMenu());
+		pFileMenu fileMenu = new pFileMenu();
+		fileMenu.getExportProperty().addActionListener(new lExportProperty());
+		fileMenu.getImportProperty().addActionListener(new lImportProperty());
+
+		menuBar.add(fileMenu);
 		menuBar.add(new pEditMenu());
 		menuBar.add(new pHelpMenu());
 
@@ -160,7 +165,6 @@ public class frontend {
 		// Add Button Panel
 		System.out.print("Initializing button panel...");
 		buttonPanel = new pButtonPane();
-		//buttonPanel.setBorder(new LineBorder(Color.ORANGE, 2));
 
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -333,6 +337,45 @@ public class frontend {
 	// LISTENERS //
 	///////////////
 
+	private class lExportProperty implements ActionListener{
+
+		public void actionPerformed(ActionEvent event){
+
+			property prop = null;
+
+			if (state == displayState.PROPERTY)
+				prop = properties.get(listPanel.getList().getSelectedIndex());
+			else
+				prop = cProperty;
+
+			System.out.println(prop.toString());
+
+			save.saveProperty(prop, prop.getName());
+		}
+
+	}
+
+	private class lImportProperty implements ActionListener{
+		public void actionPerformed(ActionEvent event)
+		{
+			JFileChooser chooser = new JFileChooser();
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("DAT files", "dat");
+
+			chooser.setFileFilter(filter);
+
+			int result = chooser.showOpenDialog(null);
+
+			if (result == JFileChooser.APPROVE_OPTION)
+				properties.add((load.loadProperty(chooser.getSelectedFile().getName())));
+
+			System.out.println(properties.size());
+
+			for (int i = 0; i < properties.size(); i++)
+				properties.get(i).getName();
+
+			updateProperty();
+		}
+	}
 	private class lBackButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 
@@ -491,10 +534,12 @@ public class frontend {
 			else if (roomSelection.equals("Bedroom"))
 			{
 				JTextField roomName = new JTextField();
+				JTextField sqf = new JTextField();
 				JCheckBox walkIn = new JCheckBox();
 				JTextField closetSqFoot = new JTextField();
 
 				Object[] prompt = {"Room Name: ", roomName,
+									"Square Foot: ", sqf,
 									"Walk in Closet: ", walkIn,
 									"Closet Square Foot: ", closetSqFoot};
 
@@ -503,6 +548,7 @@ public class frontend {
 				if (option == JOptionPane.OK_OPTION)
 				{
 					cFloor.rooms.add(new bedroom(roomName.getText(),
+									Integer.parseInt(sqf.getText()),
 									walkIn.isSelected(),
 									Integer.parseInt(closetSqFoot.getText())));
 				}

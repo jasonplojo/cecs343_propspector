@@ -6,10 +6,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 
 public class load {
-	public static Object loadProperty(String fileName){
+	public static property loadProperty(String fileName){
 		try{
 			ObjectInputStream in = new ObjectInputStream(
-					new FileInputStream(System.getProperty("user.home")+"/Propspector/"+fileName+".dat"));
+					new FileInputStream(System.getProperty("user.home")+"/Propspector/"+fileName));
 			try{
 				property prop = (property) in.readObject();
 				in.close();
