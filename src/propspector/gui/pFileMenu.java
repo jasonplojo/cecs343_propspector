@@ -3,8 +3,7 @@ package propspector.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
+import javax.swing.*;
 
 public class pFileMenu extends JMenu{
 
@@ -22,7 +21,7 @@ public class pFileMenu extends JMenu{
 		generateSummary = new JMenuItem("Generate Summary");
 		importProperty = new JMenuItem("Import Property...");
 		exportProperty = new JMenuItem("Export Property...");
-		closeProperty = new JMenuItem("Close Property");
+		//closeProperty = new JMenuItem("Close Property");
 		exitApp = new JMenuItem("Exit");
 
 		generateSummary.addActionListener(new lGenerateSummary());
@@ -31,7 +30,7 @@ public class pFileMenu extends JMenu{
 		this.add(generateSummary);
 		this.add(importProperty);
 		this.add(exportProperty);
-		this.add(closeProperty);
+		//this.add(closeProperty);
 		this.add(exitApp);
 	}
 
@@ -53,11 +52,13 @@ public class pFileMenu extends JMenu{
 	 * Listener for Generate Summary menu item
 	 */
 	private class lGenerateSummary implements ActionListener{
-		
-		// TODO: Implement task to generate summary
+
+		String dlc = "Pre-order the Generate Summary DLC!" +
+				"\n20% off if purchased in the year 2016!";
 		@Override
 		public void actionPerformed(ActionEvent event){
-			System.out.println("Generate Summary has been clicked");
+			JOptionPane.showMessageDialog(null, dlc, "Feature Coming Soon", JOptionPane.PLAIN_MESSAGE);
+			System.out.println("here");
 		}
 		
 	}
