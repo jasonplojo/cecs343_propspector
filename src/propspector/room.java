@@ -1,9 +1,14 @@
 //Eric Downie
 package propspector;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class room implements RealEstate {
+public class room implements RealEstate, Serializable {
+/**
+	 * auto-generated serialVersionUID
+	 */
+	private static final long serialVersionUID = -6863105901208620337L;
 protected String roomName = new String();
 protected int sqFoot;
 protected int windowCount = 1;

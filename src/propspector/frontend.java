@@ -408,17 +408,25 @@ public class frontend {
 	private class lExportProperty implements ActionListener{
 
 		public void actionPerformed(ActionEvent event){
+			JFileChooser chooser = new JFileChooser();
+			FileNameExtensionFilter filter = new FileNameExtensionFilter(".dat", "dat");
 
+			chooser.setFileFilter(filter);
+
+			int result = chooser.showSaveDialog(null);
 			property prop = null;
 
-			if (state == displayState.PROPERTY)
-				prop = properties.get(listPanel.getList().getSelectedIndex());
-			else
-				prop = cProperty;
+			if (result == JFileChooser.APPROVE_OPTION)
+			{
+				if (state == displayState.PROPERTY)
+					prop = properties.get(listPanel.getList().getSelectedIndex());
+				else
+					prop = cProperty;
+
+				save.savePropertyPicker(prop, chooser.getSelectedFile().getAbsoluteFile().toString() + ".dat");
+			}
 
 			System.out.println(prop.toString());
-
-			save.saveProperty(prop, prop.getName());
 		}
 
 	}
@@ -427,14 +435,14 @@ public class frontend {
 		public void actionPerformed(ActionEvent event)
 		{
 			JFileChooser chooser = new JFileChooser();
-			FileNameExtensionFilter filter = new FileNameExtensionFilter("DAT files", "dat");
+			FileNameExtensionFilter filter = new FileNameExtensionFilter(".dat", "dat");
 
 			chooser.setFileFilter(filter);
 
 			int result = chooser.showOpenDialog(null);
 
 			if (result == JFileChooser.APPROVE_OPTION)
-				properties.add((load.loadProperty(chooser.getSelectedFile().getName())));
+				properties.add((property)load.loadPropertyPicker(chooser.getSelectedFile().getAbsoluteFile().toString()));
 
 			System.out.println(properties.size());
 
@@ -444,6 +452,7 @@ public class frontend {
 			updateProperty();
 		}
 	}
+
 	private class lBackButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 

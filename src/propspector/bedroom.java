@@ -2,6 +2,10 @@
 package propspector;
 
 public class bedroom extends room {
+	/**
+	 * auto-generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 8352431079062586940L;
 	private boolean walkInCloset;
 	private int closetSqFoot;
 	

@@ -1,6 +1,12 @@
 package propspector;
 
-public class roof {
+import java.io.Serializable;
+
+public class roof implements Serializable{
+	/**
+	 * auto-generated serialVersionUID
+	 */
+	private static final long serialVersionUID = -2467281215356603765L;
 	int lifeSpan;
 	int age;
 	String roofType; //typically shingle, tile, metal, or concrete

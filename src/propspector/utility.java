@@ -1,6 +1,10 @@
 package propspector;
 
 public class utility extends room{
+	/**
+	 * auto-generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 4472292275581321804L;
 	boolean waterHeater; //room has water heater?
 	boolean furnace; //room has furnace for heating rooms?
 	boolean airCon; //room has HVAC unit?

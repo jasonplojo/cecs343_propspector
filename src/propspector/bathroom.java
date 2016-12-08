@@ -2,6 +2,10 @@
 package propspector;
 	//since all bathrooms must have at least a toilet and a sink I wont bother with toilet count. Sink count starts at 1
 public class bathroom extends room {
+	/**
+	 * auto-generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 869495637701132221L;
 	private int sinkCount;
 	private boolean shower;
 	private boolean tub;
