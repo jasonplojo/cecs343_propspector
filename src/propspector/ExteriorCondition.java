@@ -1,7 +1,13 @@
 //Eric Downie
 package propspector;
 
-public class ExteriorCondition implements condition{
+import java.io.Serializable;
+
+public class ExteriorCondition implements condition, Serializable{
+	/**
+	 * auto-generated serialVersionUID
+	 */
+	private static final long serialVersionUID = -1922927164518546843L;
 	String description;
 	boolean isDamage;
 	

@@ -44,4 +44,24 @@ public class save {
 				return false;
 			}
 		}
+	
+	public static boolean savePropertyPicker(Object obj, String path){ 
+		//for use with file picker, assumes string has file name and type already in it "/home/eric/prop/ye.dat"
+		try{
+			ObjectOutputStream out = new ObjectOutputStream(
+					new FileOutputStream(path));
+			out.writeObject(obj);
+			out.close();
+			return true;
+		}
+			catch(FileNotFoundException fnf){
+				System.out.println("File not found!");
+				return false;
+			}
+			catch (IOException ioe){
+				System.out.println("IO exception!");
+				System.out.println(ioe.getStackTrace());
+				return false;
+			}
+	}
 }

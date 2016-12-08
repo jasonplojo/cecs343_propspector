@@ -2,6 +2,10 @@
 package propspector;
 
 public class attic extends room{
+	/**
+	 * auto-generated serialVersionUID
+	 */
+	private static final long serialVersionUID = -6685982781952765187L;
 	private boolean isFinished;
 	
 	public attic(){

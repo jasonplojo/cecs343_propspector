@@ -1,7 +1,13 @@
 //Eric Downie
 package propspector;
 
-public class InteriorCondition implements condition {
+import java.io.Serializable;
+
+public class InteriorCondition implements condition, Serializable {
+	/**
+	 * auto-generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 7850926496244808554L;
 	String description;
 	boolean isDamage;
 	

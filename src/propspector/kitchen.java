@@ -1,6 +1,10 @@
 package propspector;
 
 public class kitchen extends room {
+		/**
+	 * auto-generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 8305658952769383391L;
 		int rangeCount;
 		int sinkCount;
 		String counterType;
