@@ -88,4 +88,16 @@ ArrayList<building> buildings = new ArrayList<building>();
 		return(propertyName +": "+subCount());
 	}
 	//make a method to return the reference to the building array,same for building and floor,
+
+	@Override
+	public void setcond(String cond) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getcond() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -8,6 +8,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
@@ -33,15 +35,17 @@ public class frontend {
 	private pListPane listPanel;
 	private pButtonPane buttonPanel;
 	private pModifyPane modifyPanel;
-
+	private pModifyDB modifyDB;
+	private pDetailPane detailPanel;
 	private enum displayState { PROPERTY, BUILDING, FLOOR, ROOM }
 
 	private ArrayList<property> properties;
 	private property cProperty;
 	private building cBuilding;
 	private floor cFloor;
-
-	displayState state;
+	private room cRoom= new room();
+	private displayState state;
+	private JComboBox dropList;
 
 	public frontend()
 	{
@@ -55,7 +59,7 @@ public class frontend {
 		properties = new ArrayList<property>();
 
 		state = displayState.PROPERTY;
-
+		
 		frame.setVisible(true);
 	}
 
@@ -191,11 +195,10 @@ public class frontend {
 		//////////////////
 
 		// Add Detail Panel
-		// TODO: Implement detail panel functionality
-
 		System.out.print("Initializing detail panel...");
-		JPanel detailPanel = new JPanel();
-		//detailPanel.setBorder(new LineBorder(Color.ORANGE, 2));
+
+		detailPanel = new pDetailPane();
+		detailPanel.setBorder(new LineBorder(Color.ORANGE, 2));
 
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -208,12 +211,28 @@ public class frontend {
 		System.out.println("done!");
 	}
 
+	private void updateDetailPanel(){
+		
+	if(state==displayState.PROPERTY){
+		detailPanel.setState("property");
+	}
+		
+	else if(state==displayState.BUILDING){
+		detailPanel.setState("building");
+	}
+	else if(state==displayState.FLOOR){
+		detailPanel.setState("floor");
+	}
+	else if(state==displayState.ROOM){
+		detailPanel.setState("room");
+	}
+}
+
 	private void setupModifyPanel()
 	{
 		// Add Modify Panel
 		System.out.print("Initializing Modify panel...");
 		modifyPanel = new pModifyPane();
-		//modifyPanel.setBorder(new LineBorder(Color.ORANGE, 2));
 
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -230,10 +249,8 @@ public class frontend {
 
 	private void setupConditionPanel()
 	{
-		// TODO: Implement option 2 panel functionality
 		System.out.print("Initializing option 2...");
-		JPanel conditionPanel = new JPanel();
-		//conditionPanel.setBorder(new LineBorder(Color.ORANGE, 2));
+		modifyDB = new pModifyDB();
 
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -244,11 +261,62 @@ public class frontend {
 		constraints.weighty = 1.0;
 
 		constraints.fill = GridBagConstraints.BOTH;
-
-		rPanel.add(conditionPanel, constraints);
+		modifyDB.getDropList().setVisible(false);
+		modifyDB.setTitle("");
+		rPanel.add(modifyDB, constraints);
 		System.out.println("done!");
 	}
 
+	
+	private void updateConditionPanel(){
+		modifyDB.getDropList().setVisible(false);
+		modifyDB.setTitle("");
+		if(state==displayState.BUILDING){
+		modifyDB.setExDB();
+		modifyDB.getDropList().setVisible(true);
+		modifyDB.setTitle("Exterior Conditions");
+		  dropList=modifyDB.getDropList();
+		dropList.addItemListener(
+         		new ItemListener(){
+         			public void itemStateChanged(ItemEvent event) {
+         				if(event.getStateChange()==ItemEvent.SELECTED){
+         					
+         				String exCon=dropList.getSelectedItem().toString();
+         				ExteriorCondition  temp= new ExteriorCondition(exCon);
+         					cBuilding.exConditions.add(temp);
+         					
+         				}
+         					
+         			}
+         		}
+         		
+				);
+
+		
+		}
+		
+		else if(state==displayState.ROOM){
+			modifyDB.setIntDB();
+			modifyDB.getDropList().setVisible(true);
+			modifyDB.setTitle("Interior Conditions");	
+			 dropList=modifyDB.getDropList();
+				dropList.addItemListener(
+		         		new ItemListener(){
+		         			public void itemStateChanged(ItemEvent event) {
+		         				if(event.getStateChange()==ItemEvent.SELECTED){
+		         					
+		         					String inCon=dropList.getSelectedItem().toString();
+		         					InteriorCondition temp2= new InteriorCondition(inCon);
+		         					cRoom.conditions.add(temp2);
+		         				}
+		         					
+		         			}
+		         		}
+		     );
+		}
+	}
+	
+	
 	private void updateProperty()
 	{
 		JList list = listPanel.getList();
@@ -384,6 +452,8 @@ public class frontend {
 				case BUILDING:
 					state = displayState.PROPERTY;
 					updateProperty();
+					updateConditionPanel();
+					updateDetailPanel();
 					listPanel.setProperty("Not Selected");
 					modifyPanel.getDropList().setVisible(false);
 					modifyPanel.setTitle("");
@@ -392,12 +462,16 @@ public class frontend {
 				case FLOOR:
 					state = displayState.BUILDING;
 					updateBuilding();
+					updateConditionPanel();
+					updateDetailPanel();
 					listPanel.setBuilding("Not Selected");
 					break;
 
 				case ROOM:
 					state = displayState.FLOOR;
 					updateFloor();
+					updateConditionPanel();
+					updateDetailPanel();
 					listPanel.setFloor(0);
 					break;
 			}
@@ -609,21 +683,29 @@ public class frontend {
 					case PROPERTY:
 						properties.remove(selection);
 						updateProperty();
+						updateConditionPanel();
+						updateDetailPanel();
 						break;
 
 					case BUILDING:
 						cProperty.buildings.remove(selection);
 						updateBuilding();
+						updateConditionPanel();
+						updateDetailPanel();
 						break;
 
 					case FLOOR:
 						cBuilding.floors.remove(selection);
 						updateFloor();
+						updateConditionPanel();
+						updateDetailPanel();
 						break;
 
 					case ROOM:
 						cFloor.rooms.remove(selection);
 						updateRoom();
+						updateConditionPanel();
+						updateDetailPanel();
 						break;
 				}
 			}
@@ -632,6 +714,7 @@ public class frontend {
 
 	private class lModifyButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			 
 			int selection = listPanel.getList().getSelectedIndex();
 
 			if (selection >= 0)
@@ -641,19 +724,32 @@ public class frontend {
 					case PROPERTY:
 						cProperty = properties.get(selection);
 						updateBuilding();
-						state = displayState.BUILDING;
+						updateConditionPanel();
+						
+					state = displayState.BUILDING;
+					updateDetailPanel();
 						break;
 
 					case BUILDING:
 						cBuilding = cProperty.buildings.get(selection);
 						updateFloor();
+						updateConditionPanel();
+						updateDetailPanel();
 						state = displayState.FLOOR;
+						
 						break;
 
 					case FLOOR:
 						cFloor = cBuilding.floors.get(selection);
 						updateRoom();
+						updateConditionPanel();
+						updateDetailPanel();
 						state = displayState.ROOM;
+						break;
+					case ROOM:
+						
+						updateConditionPanel();
+						updateDetailPanel();
 				}
 			}
 		}
