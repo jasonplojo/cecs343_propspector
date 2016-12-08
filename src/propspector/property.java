@@ -1,10 +1,15 @@
 //Aaron(yixuan Leng)
 package propspector;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class property implements RealEstate
+public class property implements RealEstate, Serializable
 {
+	/**
+	 * auto-generated serialVersionUID
+	 */
+	private static final long serialVersionUID = -8102474378096316837L;
 	private String ownerName = new String();
 	private String propertyName = new String();
 	private String address = new String();

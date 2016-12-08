@@ -1,6 +1,10 @@
 package propspector;
 
 public class garage extends room {
+	/**
+	 * auto-generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 7905220684447453970L;
 	int carCapacity;
 	boolean hasWorkshop;
 	

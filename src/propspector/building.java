@@ -1,8 +1,13 @@
 package propspector;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class building implements RealEstate{
+public class building implements RealEstate, Serializable{
+	/**
+	 * auto-generated serialVersionUID
+	 */
+	private static final long serialVersionUID = 6039562272017182532L;
 	public String buildingName = new String();
 	public int sqFoot;
 	public roof roof;
