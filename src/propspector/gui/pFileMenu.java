@@ -7,54 +7,52 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 public class pFileMenu extends JMenu{
-	
+
+	private JMenuItem generateSummary;
+	private JMenuItem importProperty;
+	private JMenuItem exportProperty;
+	private JMenuItem closeProperty;
+	private JMenuItem exitApp;
+
 	public pFileMenu(){
-		
-		ActionListener listener = null;
-		JMenuItem item = null;
 		
 		// Generate menu items
 		this.setText("File");
-				
-		// Create Generate Summary
-		item = new JMenuItem("Generate Summary");
-		listener = new generateSummary();
-		item.addActionListener(listener);
-		this.add(item);
-				
-		// Create Import Property...
-		item = new JMenuItem("Import Property...");
-		listener = new importProperty();
-		item.addActionListener(listener);
-		this.add(item);
-		
-		// Create Export Property...
-		item = new JMenuItem("Export Property...");
-		listener = new exportProperty();
-		item.addActionListener(listener);
-		this.add(item);
-		 
-		// Create Close Property
-		item = new JMenuItem("Close Property");
-		listener = new closeProperty();
-		item.addActionListener(listener);
-		this.add(item);
-		
-		// Create Exit
-		item = new JMenuItem("Exit");
-		listener = new exitApp();
-		item.addActionListener(listener);
-		this.add(item);
+
+		generateSummary = new JMenuItem("Generate Summary");
+		importProperty = new JMenuItem("Import Property...");
+		exportProperty = new JMenuItem("Export Property...");
+		closeProperty = new JMenuItem("Close Property");
+		exitApp = new JMenuItem("Exit");
+
+		generateSummary.addActionListener(new lGenerateSummary());
+		exitApp.addActionListener(new lExitApp());
+
+		this.add(generateSummary);
+		this.add(importProperty);
+		this.add(exportProperty);
+		this.add(closeProperty);
+		this.add(exitApp);
 	}
-	
+
+	public JMenuItem getImportProperty()
+	{
+		return importProperty;
+	}
+
+	public JMenuItem getExportProperty()
+	{
+		return exportProperty;
+	}
+
 	///////////////
 	// LISTENERS //
 	///////////////
-	
+
 	/**
 	 * Listener for Generate Summary menu item
 	 */
-	private class generateSummary implements ActionListener{
+	private class lGenerateSummary implements ActionListener{
 		
 		// TODO: Implement task to generate summary
 		@Override
@@ -65,48 +63,9 @@ public class pFileMenu extends JMenu{
 	}
 	
 	/**
-	 * Listener for Import Property menu item
-	 */
-	private class importProperty implements ActionListener{
-		
-		// TODO: Implement task to import property
-		@Override
-		public void actionPerformed(ActionEvent event){
-			System.out.println("Import Property has been clicked");
-		}
-		
-	}
-	
-	/**
-	 * Listener for Export Property menu item
-	 */
-	private class exportProperty implements ActionListener{
-		
-		// TODO: Implement task to generate summary
-		@Override
-		public void actionPerformed(ActionEvent event){
-			System.out.println("Export Property has been clicked");
-		}
-		
-	}
-	
-	/**
-	 * Listener for Close Property menu item
-	 */
-	private class closeProperty implements ActionListener{
-		
-		// TODO: Implement task to generate summary
-		@Override
-		public void actionPerformed(ActionEvent event){
-			System.out.println("Close Property has been clicked");
-		}
-		
-	}
-	
-	/**
 	 * Listener for Exit menu item
 	 */
-	private class exitApp implements ActionListener{
+	private class lExitApp implements ActionListener{
 		
 		@Override
 		public void actionPerformed(ActionEvent event){

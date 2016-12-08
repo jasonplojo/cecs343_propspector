@@ -1,7 +1,6 @@
 //Eric Downie
 package propspector;
 
-import java.util.Enumeration;
 
 //because these are default hardcoded values, no mutators
 public enum defaultExtCon{ //For storing default exterior conditions - if we decide to keep those
@@ -11,7 +10,11 @@ public enum defaultExtCon{ //For storing default exterior conditions - if we dec
 	HasStucco("The building has stucco.", false),
 	HasSiding("The building has siding.", false),
 	SidingDamaged("The siding is damaged.", true),
-	WallsHoles("Some walls have holes in them", true);
+	WallsHoles("Some walls have holes in them", true),
+	RoofLeaks("The roof leaks.", true),
+	RoofHoles("The roof has holes in it.", true),
+	RoofReplace("The roof should be replaced.", false),
+	RoofAge("The roof has exceded its rated life span.", false);
 	
 	private String description;
 	private boolean isDamage;

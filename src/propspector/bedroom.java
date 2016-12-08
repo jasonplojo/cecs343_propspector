@@ -11,10 +11,11 @@ public class bedroom extends room {
 		closetSqFoot = 6;
 	}
 	
-	public bedroom(String name, boolean walkin, int csqf){
+	public bedroom(String name, int sqf, boolean walkin, int csqf){
 		roomName = name;
 		walkInCloset = walkin;
 		closetSqFoot = csqf;
+		sqFoot = sqf;
 	}
 	
 	public bedroom(String name){

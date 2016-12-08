@@ -67,7 +67,7 @@ ArrayList<room> rooms = new ArrayList<room>();
 		return (rooms.size() + "room count");
 	}
 
-	public String addCount(String str) {
+	public String addRoom(String str) {
 		rooms.add(new room(str));
 		return str;
 	}

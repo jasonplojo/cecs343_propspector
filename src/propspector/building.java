@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class building implements RealEstate{
 	public String buildingName = new String();
 	public int sqFoot;
+	public roof roof;
 
 ArrayList<floor> floors = new ArrayList<floor>();	
 ArrayList<ExteriorCondition> exConditions = new ArrayList<ExteriorCondition>();
@@ -56,8 +57,21 @@ public String getcond(){
 		return (sqFoot + "sq ft" + floors.size() + "floor count" );
 	}
 
-	public String addCount(String str) {
+	public String addFloor(String str) {
 		floors.add(new floor(str));
+		return str;
+	}
+	
+	public void setRoof(int lifeSpan, int age, String roofType){
+		roof = new roof(lifeSpan, age, roofType);
+	}
+	
+	public String getRoof(){
+		return roof.toString();
+	}
+	
+	public String addCondition(String str){
+		exConditions.add(new ExteriorCondition(str));
 		return str;
 	}
 	

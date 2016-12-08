@@ -10,7 +10,6 @@ public interface RealEstate {
 		String getcond();
 		String listConditions(); //list conditions only
 		String subCount(); //list subcount only i.e. Buidling 1: 4 rooms
-		String addCount(String str); //add a default item to the subcount i.e. add a room to building, add a building to property etc.
 		String toString(); //what the item will print out when set as a string
 		
 }

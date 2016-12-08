@@ -79,7 +79,7 @@ ArrayList<building> buildings = new ArrayList<building>();
 		return (buildings.size() + "buidling count" + sqFoot + "sq ft");
 	}
 
-	public String addCount(String str) {
+	public String addBuilding(String str) {
 		buildings.add(new building(str));
 		return str;
 	}

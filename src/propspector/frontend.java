@@ -4,19 +4,20 @@ import propspector.gui.*;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import java.awt.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.util.ArrayList;
 
 public class frontend {
 
 	public static void main(String[] args) {
-		frontend mainApp = new frontend();
-		
+		new frontend();
 	}
 
 	// Frame and panel properties
@@ -43,10 +44,9 @@ public class frontend {
 	private building cBuilding;
 	private floor cFloor;
 	private room cRoom= new room();
-	
-	
-	displayState state;
-	JComboBox dropList;
+	private displayState state;
+	private JComboBox dropList;
+
 	public frontend()
 	{
 		setupFrame();
@@ -77,7 +77,11 @@ public class frontend {
 		// Initialize Top Menu Bar
 		JMenuBar menuBar = new JMenuBar();
 
-		menuBar.add(new pFileMenu());
+		pFileMenu fileMenu = new pFileMenu();
+		fileMenu.getExportProperty().addActionListener(new lExportProperty());
+		fileMenu.getImportProperty().addActionListener(new lImportProperty());
+
+		menuBar.add(fileMenu);
 		menuBar.add(new pEditMenu());
 		menuBar.add(new pHelpMenu());
 
@@ -102,7 +106,7 @@ public class frontend {
 		System.out.print("Initializing layout panels...");
 		lPanel = new JPanel();
 		lPanel.setLayout(new GridBagLayout());
-		lPanel.setBorder(new LineBorder(Color.BLACK, 2));
+		//lPanel.setBorder(new LineBorder(Color.BLACK, 2));
 
 		// Set constraints for left layout panel
 		constraints = new GridBagConstraints();
@@ -117,7 +121,7 @@ public class frontend {
 		// Add right layout panel to main panel
 		rPanel = new JPanel();
 		rPanel.setLayout(new GridBagLayout());
-		rPanel.setBorder(new LineBorder(Color.BLACK, 2));
+		//rPanel.setBorder(new LineBorder(Color.BLACK, 2));
 
 		// Set constraints for right layout panel
 		constraints = new GridBagConstraints();
@@ -143,7 +147,7 @@ public class frontend {
 		// Add List Panel
 		System.out.print("Initializing list panel...");
 		listPanel = new pListPane();
-		listPanel.setBorder(new LineBorder(Color.ORANGE, 2)); // For debugging
+		//listPanel.setBorder(new LineBorder(Color.ORANGE, 2)); // For debugging
 
 		// Set constraints for list panel
 		GridBagConstraints constraints = new GridBagConstraints();
@@ -165,7 +169,6 @@ public class frontend {
 		// Add Button Panel
 		System.out.print("Initializing button panel...");
 		buttonPanel = new pButtonPane();
-		buttonPanel.setBorder(new LineBorder(Color.ORANGE, 2));
 
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -192,9 +195,8 @@ public class frontend {
 		//////////////////
 
 		// Add Detail Panel
-		// TODO: Implement detail panel functionality
-
 		System.out.print("Initializing detail panel...");
+
 		detailPanel = new pDetailPane();
 		detailPanel.setBorder(new LineBorder(Color.ORANGE, 2));
 
@@ -223,20 +225,14 @@ public class frontend {
 	}
 	else if(state==displayState.ROOM){
 		detailPanel.setState("room");
+	}
 }
-}
-	
-	
-	
-	
-	
-	
+
 	private void setupModifyPanel()
 	{
 		// Add Modify Panel
 		System.out.print("Initializing Modify panel...");
 		modifyPanel = new pModifyPane();
-		modifyPanel.setBorder(new LineBorder(Color.ORANGE, 2));
 
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -253,10 +249,8 @@ public class frontend {
 
 	private void setupConditionPanel()
 	{
-		// TODO: Implement option 2 panel functionality
 		System.out.print("Initializing option 2...");
 		modifyDB = new pModifyDB();
-		modifyDB.setBorder(new LineBorder(Color.ORANGE, 2));
 
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -340,6 +334,7 @@ public class frontend {
 	private void updateBuilding()
 	{
 		JList list = listPanel.getList();
+		JComboBox dropBox = modifyPanel.getDropList();
 
 		DefaultListModel model = new DefaultListModel();
 
@@ -352,13 +347,20 @@ public class frontend {
 		listPanel.setProperty(cProperty.getName());
 		buttonPanel.getBackButton().setVisible(true);
 
-		modifyPanel.getDropList().setVisible(true);
+		ArrayList<String> toAdd = new ArrayList<String>();
+
+		for (building element : cProperty.buildings)
+			toAdd.add(element.getName());
+
+		dropBox.setModel(new DefaultComboBoxModel(toAdd.toArray()));
+		dropBox.setVisible(true);
 		modifyPanel.setTitle("Building Name");
 	}
 
 	private void updateFloor()
 	{
 		JList list = listPanel.getList();
+		JComboBox dropBox = modifyPanel.getDropList();
 
 		DefaultListModel model = new DefaultListModel();
 
@@ -367,12 +369,15 @@ public class frontend {
 
 		list.setModel(model);
 
+		dropBox.setVisible(false);
 		listPanel.setBuilding(cBuilding.getName());
+		modifyPanel.setTitle("");
 	}
 
 	private void updateRoom()
 	{
 		JList list = listPanel.getList();
+		JComboBox dropBox = modifyPanel.getDropList();
 
 		DefaultListModel model = new DefaultListModel();
 
@@ -381,13 +386,64 @@ public class frontend {
 
 		list.setModel(model);
 
+		ArrayList<String> type = new ArrayList<String>();
+
+		type.add("Attic");
+		type.add("Bathroom");
+		type.add("Bedroom");
+		type.add("Default");
+		type.add("Utility");
+
+		dropBox.setModel(new DefaultComboBoxModel(type.toArray()));
+		dropBox.setVisible(true);
+
 		listPanel.setFloor(cFloor.getLevel());
+		modifyPanel.setTitle("Room Type");
 	}
 
 	///////////////
 	// LISTENERS //
 	///////////////
 
+	private class lExportProperty implements ActionListener{
+
+		public void actionPerformed(ActionEvent event){
+
+			property prop = null;
+
+			if (state == displayState.PROPERTY)
+				prop = properties.get(listPanel.getList().getSelectedIndex());
+			else
+				prop = cProperty;
+
+			System.out.println(prop.toString());
+
+			save.saveProperty(prop, prop.getName());
+		}
+
+	}
+
+	private class lImportProperty implements ActionListener{
+		public void actionPerformed(ActionEvent event)
+		{
+			JFileChooser chooser = new JFileChooser();
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("DAT files", "dat");
+
+			chooser.setFileFilter(filter);
+
+			int result = chooser.showOpenDialog(null);
+
+			if (result == JFileChooser.APPROVE_OPTION)
+				properties.add((load.loadProperty(chooser.getSelectedFile().getName())));
+
+			System.out.println(properties.size());
+
+			for (int i = 0; i < properties.size(); i++)
+				properties.get(i).getName();
+
+			updateProperty();
+		}
+	}
 	private class lBackButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 
@@ -424,7 +480,6 @@ public class frontend {
 
 	private class lCreateButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-
 
 			switch (state) {
 				case PROPERTY:
@@ -504,27 +559,116 @@ public class frontend {
 
 		private void createRoom()
 		{
-			JTextField roomName = new JTextField();
-			JTextField sqFoot = new JTextField();
-			JTextField windowCount = new JTextField();
-			JTextField outletCount = new JTextField();
+			String roomSelection = modifyPanel.getDropList().getSelectedItem().toString();
 
-			Object[] prompt = {"Room Name: ", roomName,
-								"Square Foot: ", sqFoot,
-								"Number of Windows: ", windowCount,
-								"Number of Outlets: ", outletCount};
-
-			int option = JOptionPane.showConfirmDialog(null, prompt, "Create Room", JOptionPane.OK_CANCEL_OPTION);
-
-			if (option == JOptionPane.OK_OPTION)
+			if (roomSelection.equals("Attic"))
 			{
-				cFloor.rooms.add(new room(roomName.getText(),
-									Integer.parseInt(sqFoot.getText()),
-									Integer.parseInt(windowCount.getText()),
-									Integer.parseInt(outletCount.getText())));
+				JTextField roomName = new JTextField();
+				JCheckBox finished = new JCheckBox();
+				JTextField sqft = new JTextField();
+
+				Object[] prompt = {"Room Name: ", roomName,
+							"Is Finished: ", finished,
+							"Square Foot: ", sqft};
+
+				int option = JOptionPane.showConfirmDialog(null, prompt, "Create Attic", JOptionPane.OK_CANCEL_OPTION);
+
+				if (option == JOptionPane.OK_OPTION)
+				{
+					cFloor.rooms.add(new attic(roomName.getText(),
+												finished.isSelected(),
+												Integer.parseInt(sqft.getText())));
+				}
+			}
+			else if (roomSelection.equals("Bathroom"))
+			{
+				JTextField roomName = new JTextField();
+				JTextField sinkCount = new JTextField();
+				JCheckBox shower = new JCheckBox();
+				JCheckBox tub = new JCheckBox();
+				JTextField sqft = new JTextField();
+
+				Object[] prompt = {"Room Name: ", roomName,
+									"Sink Count: ", sinkCount,
+									"Has Shower: ", shower,
+									"Has Tub: ", tub,
+									"Square Foot: ", sqft};
+
+				int option = JOptionPane.showConfirmDialog(null, prompt, "Create Bathroom", JOptionPane.OK_CANCEL_OPTION);
+
+				if (option == JOptionPane.OK_OPTION)
+				{
+					cFloor.rooms.add(new bathroom(roomName.getText(),
+													Integer.parseInt(sinkCount.getText()),
+													shower.isSelected(),
+													tub.isSelected(),
+													Integer.parseInt(sqft.getText())));
+				}
+			}
+			else if (roomSelection.equals("Bedroom"))
+			{
+				JTextField roomName = new JTextField();
+				JTextField sqf = new JTextField();
+				JCheckBox walkIn = new JCheckBox();
+				JTextField closetSqFoot = new JTextField();
+
+				Object[] prompt = {"Room Name: ", roomName,
+									"Square Foot: ", sqf,
+									"Walk in Closet: ", walkIn,
+									"Closet Square Foot: ", closetSqFoot};
+
+				int option = JOptionPane.showConfirmDialog(null, prompt, "Create Bedroom", JOptionPane.OK_CANCEL_OPTION);
+
+				if (option == JOptionPane.OK_OPTION)
+				{
+					cFloor.rooms.add(new bedroom(roomName.getText(),
+									Integer.parseInt(sqf.getText()),
+									walkIn.isSelected(),
+									Integer.parseInt(closetSqFoot.getText())));
+				}
+			}
+			else if(roomSelection.equals("Utility"))
+			{
+				JCheckBox waterHeater = new JCheckBox();
+				JCheckBox furnace = new JCheckBox();
+				JCheckBox airCon = new JCheckBox();
+
+				Object[] prompt = {"Has Water Heater: ", waterHeater,
+									"Has Furnace: ", furnace,
+									"Has Air Conditioner: ", airCon};
+
+				int option = JOptionPane.showConfirmDialog(null, prompt, "Create Utility Room", JOptionPane.OK_CANCEL_OPTION);
+
+				if (option == JOptionPane.OK_OPTION)
+				{
+					cFloor.rooms.add(new utility(waterHeater.isSelected(),
+													furnace.isSelected(),
+													airCon.isSelected()));
+				}
+			}
+			else if(roomSelection.equals("Default"))
+			{
+				JTextField roomName = new JTextField();
+				JTextField sqFoot = new JTextField();
+				JTextField windowCount = new JTextField();
+				JTextField outletCount = new JTextField();
+
+				Object[] prompt = {"Room Name: ", roomName,
+									"Square Foot: ", sqFoot,
+									"Number of Windows: ", windowCount,
+									"Number of Outlets: ", outletCount};
+
+				int option = JOptionPane.showConfirmDialog(null, prompt, "Create Room", JOptionPane.OK_CANCEL_OPTION);
+
+				if (option == JOptionPane.OK_OPTION) {
+					cFloor.rooms.add(new room(roomName.getText(),
+							Integer.parseInt(sqFoot.getText()),
+							Integer.parseInt(windowCount.getText()),
+							Integer.parseInt(outletCount.getText())));
+				}
+			}
 
 				updateRoom();
-			}
 		}
 	}
 
