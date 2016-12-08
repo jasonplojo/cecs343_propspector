@@ -11,7 +11,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.ActionEvent;
-import java.io.File;
 import java.util.ArrayList;
 
 public class frontend {
@@ -37,18 +36,18 @@ public class frontend {
 	private pModifyPane modifyPanel;
 	private pModifyDB modifyDB;
 	private pDetailPane detailPanel;
-	private enum displayState { PROPERTY, BUILDING, FLOOR, ROOM }
+
+	private enum displayState {PROPERTY, BUILDING, FLOOR, ROOM}
 
 	private ArrayList<property> properties;
 	private property cProperty;
 	private building cBuilding;
 	private floor cFloor;
-	private room cRoom= new room();
+	private room cRoom = new room();
 	private displayState state;
 	private JComboBox dropList;
 
-	public frontend()
-	{
+	public frontend() {
 		setupFrame();
 		setupListPanel();
 		setupButtonPanel();
@@ -59,15 +58,14 @@ public class frontend {
 		properties = new ArrayList<property>();
 
 		state = displayState.PROPERTY;
-		
+
 		frame.setVisible(true);
 	}
 
 	///////////////
 	// FUNCTIONS //
 	///////////////
-	private void setupFrame()
-	{
+	private void setupFrame() {
 		// Initialize frame
 		frame = new JFrame("Propspector");
 		frame.setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -82,8 +80,11 @@ public class frontend {
 		fileMenu.getImportProperty().addActionListener(new lImportProperty());
 
 		menuBar.add(fileMenu);
-		menuBar.add(new pEditMenu());
-		menuBar.add(new pHelpMenu());
+
+		pHelpMenu helpMenu = new pHelpMenu();
+		helpMenu.getAbout().addActionListener(new lAbout());
+
+		menuBar.add(helpMenu);
 
 		frame.setJMenuBar(menuBar);
 
@@ -138,8 +139,7 @@ public class frontend {
 		System.out.println("done!");
 	}
 
-	private void setupListPanel()
-	{
+	private void setupListPanel() {
 		////////////////
 		// LIST PANEL //
 		////////////////
@@ -164,11 +164,14 @@ public class frontend {
 		System.out.println("done!");
 	}
 
-	private void setupButtonPanel()
-	{
+	private void setupButtonPanel() {
 		// Add Button Panel
 		System.out.print("Initializing button panel...");
 		buttonPanel = new pButtonPane();
+
+		buttonPanel.setMinimumSize(new Dimension(500, 300));
+		buttonPanel.setPreferredSize(new Dimension(500, 300));
+		buttonPanel.setMaximumSize(new Dimension(500, 300));
 
 		GridBagConstraints constraints = new GridBagConstraints();
 
@@ -188,8 +191,7 @@ public class frontend {
 		System.out.println("done!");
 	}
 
-	private void setupDetailPanel()
-	{
+	private void setupDetailPanel() {
 		//////////////////
 		// DETAIL PANEL //
 		//////////////////
@@ -198,38 +200,39 @@ public class frontend {
 		System.out.print("Initializing detail panel...");
 
 		detailPanel = new pDetailPane();
-		detailPanel.setBorder(new LineBorder(Color.ORANGE, 2));
+
+		detailPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		detailPanel.setMinimumSize(new Dimension(240, 400));
+		detailPanel.setPreferredSize(new Dimension(240, 400));
+		detailPanel.setMaximumSize(new Dimension(240, 400));
 
 		GridBagConstraints constraints = new GridBagConstraints();
 
 		constraints.gridx = 1;
 		constraints.gridy = 0;
 
-		constraints.fill = GridBagConstraints.BOTH;
+		constraints.anchor = GridBagConstraints.FIRST_LINE_END;
+
+		constraints.fill = GridBagConstraints.VERTICAL;
 
 		rPanel.add(detailPanel, constraints);
 		System.out.println("done!");
 	}
 
-	private void updateDetailPanel(){
-		
-	if(state==displayState.PROPERTY){
-		detailPanel.setState("property");
-	}
-		
-	else if(state==displayState.BUILDING){
-		detailPanel.setState("building");
-	}
-	else if(state==displayState.FLOOR){
-		detailPanel.setState("floor");
-	}
-	else if(state==displayState.ROOM){
-		detailPanel.setState("room");
-	}
-}
+	private void updateDetailPanel() {
 
-	private void setupModifyPanel()
-	{
+		if (state == displayState.PROPERTY) {
+			detailPanel.setState("property");
+		} else if (state == displayState.BUILDING) {
+			detailPanel.setState("building");
+		} else if (state == displayState.FLOOR) {
+			detailPanel.setState("floor");
+		} else if (state == displayState.ROOM) {
+			detailPanel.setState("room");
+		}
+	}
+
+	private void setupModifyPanel() {
 		// Add Modify Panel
 		System.out.print("Initializing Modify panel...");
 		modifyPanel = new pModifyPane();
@@ -247,8 +250,7 @@ public class frontend {
 		System.out.println("done!");
 	}
 
-	private void setupConditionPanel()
-	{
+	private void setupConditionPanel() {
 		System.out.print("Initializing option 2...");
 		modifyDB = new pModifyDB();
 
@@ -267,58 +269,53 @@ public class frontend {
 		System.out.println("done!");
 	}
 
-	
-	private void updateConditionPanel(){
+	private void updateConditionPanel() {
 		modifyDB.getDropList().setVisible(false);
 		modifyDB.setTitle("");
-		if(state==displayState.BUILDING){
-		modifyDB.setExDB();
-		modifyDB.getDropList().setVisible(true);
-		modifyDB.setTitle("Exterior Conditions");
-		  dropList=modifyDB.getDropList();
-		dropList.addItemListener(
-         		new ItemListener(){
-         			public void itemStateChanged(ItemEvent event) {
-         				if(event.getStateChange()==ItemEvent.SELECTED){
-         					
-         				String exCon=dropList.getSelectedItem().toString();
-         				ExteriorCondition  temp= new ExteriorCondition(exCon);
-         					cBuilding.exConditions.add(temp);
-         					
-         				}
-         					
-         			}
-         		}
-         		
-				);
+		if (state == displayState.BUILDING) {
+			modifyDB.setExDB();
+			modifyDB.getDropList().setVisible(true);
+			modifyDB.setTitle("Exterior Conditions");
+			dropList = modifyDB.getDropList();
+			dropList.addItemListener(
+					new ItemListener() {
+						public void itemStateChanged(ItemEvent event) {
+							if (event.getStateChange() == ItemEvent.SELECTED) {
 
-		
-		}
-		
-		else if(state==displayState.ROOM){
+								String exCon = dropList.getSelectedItem().toString();
+								ExteriorCondition temp = new ExteriorCondition(exCon);
+								cBuilding.exConditions.add(temp);
+
+							}
+
+						}
+					}
+
+			);
+
+
+		} else if (state == displayState.ROOM) {
 			modifyDB.setIntDB();
 			modifyDB.getDropList().setVisible(true);
-			modifyDB.setTitle("Interior Conditions");	
-			 dropList=modifyDB.getDropList();
-				dropList.addItemListener(
-		         		new ItemListener(){
-		         			public void itemStateChanged(ItemEvent event) {
-		         				if(event.getStateChange()==ItemEvent.SELECTED){
-		         					
-		         					String inCon=dropList.getSelectedItem().toString();
-		         					InteriorCondition temp2= new InteriorCondition(inCon);
-		         					cRoom.conditions.add(temp2);
-		         				}
-		         					
-		         			}
-		         		}
-		     );
+			modifyDB.setTitle("Interior Conditions");
+			dropList = modifyDB.getDropList();
+			dropList.addItemListener(
+					new ItemListener() {
+						public void itemStateChanged(ItemEvent event) {
+							if (event.getStateChange() == ItemEvent.SELECTED) {
+
+								String inCon = dropList.getSelectedItem().toString();
+								InteriorCondition temp2 = new InteriorCondition(inCon);
+								cRoom.conditions.add(temp2);
+							}
+
+						}
+					}
+			);
 		}
 	}
-	
-	
-	private void updateProperty()
-	{
+
+	private void updateProperty() {
 		JList list = listPanel.getList();
 
 		DefaultListModel model = new DefaultListModel();
@@ -331,8 +328,7 @@ public class frontend {
 		buttonPanel.getBackButton().setVisible(false);
 	}
 
-	private void updateBuilding()
-	{
+	private void updateBuilding() {
 		JList list = listPanel.getList();
 		JComboBox dropBox = modifyPanel.getDropList();
 
@@ -354,11 +350,10 @@ public class frontend {
 
 		dropBox.setModel(new DefaultComboBoxModel(toAdd.toArray()));
 		dropBox.setVisible(true);
-		modifyPanel.setTitle("Building Name");
+		modifyPanel.setTitle("Building Options");
 	}
 
-	private void updateFloor()
-	{
+	private void updateFloor() {
 		JList list = listPanel.getList();
 		JComboBox dropBox = modifyPanel.getDropList();
 
@@ -374,8 +369,7 @@ public class frontend {
 		modifyPanel.setTitle("");
 	}
 
-	private void updateRoom()
-	{
+	private void updateRoom() {
 		JList list = listPanel.getList();
 		JComboBox dropBox = modifyPanel.getDropList();
 
@@ -392,6 +386,7 @@ public class frontend {
 		type.add("Bathroom");
 		type.add("Bedroom");
 		type.add("Default");
+		type.add("Kitchen");
 		type.add("Utility");
 
 		dropBox.setModel(new DefaultComboBoxModel(type.toArray()));
@@ -405,9 +400,9 @@ public class frontend {
 	// LISTENERS //
 	///////////////
 
-	private class lExportProperty implements ActionListener{
+	private class lExportProperty implements ActionListener {
 
-		public void actionPerformed(ActionEvent event){
+		public void actionPerformed(ActionEvent event) {
 			JFileChooser chooser = new JFileChooser();
 			FileNameExtensionFilter filter = new FileNameExtensionFilter(".dat", "dat");
 
@@ -416,8 +411,7 @@ public class frontend {
 			int result = chooser.showSaveDialog(null);
 			property prop = null;
 
-			if (result == JFileChooser.APPROVE_OPTION)
-			{
+			if (result == JFileChooser.APPROVE_OPTION) {
 				if (state == displayState.PROPERTY)
 					prop = properties.get(listPanel.getList().getSelectedIndex());
 				else
@@ -431,9 +425,8 @@ public class frontend {
 
 	}
 
-	private class lImportProperty implements ActionListener{
-		public void actionPerformed(ActionEvent event)
-		{
+	private class lImportProperty implements ActionListener {
+		public void actionPerformed(ActionEvent event) {
 			JFileChooser chooser = new JFileChooser();
 			FileNameExtensionFilter filter = new FileNameExtensionFilter(".dat", "dat");
 
@@ -442,7 +435,7 @@ public class frontend {
 			int result = chooser.showOpenDialog(null);
 
 			if (result == JFileChooser.APPROVE_OPTION)
-				properties.add((property)load.loadPropertyPicker(chooser.getSelectedFile().getAbsoluteFile().toString()));
+				properties.add((property) load.loadPropertyPicker(chooser.getSelectedFile().getAbsoluteFile().toString()));
 
 			System.out.println(properties.size());
 
@@ -456,8 +449,7 @@ public class frontend {
 	private class lBackButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 
-			switch(state)
-			{
+			switch (state) {
 				case BUILDING:
 					state = displayState.PROPERTY;
 					updateProperty();
@@ -509,8 +501,7 @@ public class frontend {
 			}
 		}
 
-		private void createProperty()
-		{
+		private void createProperty() {
 			JTextField ownerName = new JTextField();
 			JTextField address = new JTextField();
 			JTextField propertyName = new JTextField();
@@ -523,8 +514,7 @@ public class frontend {
 
 			int option = JOptionPane.showConfirmDialog(null, prompt, "Create Property", JOptionPane.OK_CANCEL_OPTION);
 
-			if (option == JOptionPane.OK_OPTION)
-			{
+			if (option == JOptionPane.OK_OPTION) {
 				properties.add(new property(ownerName.getText(),
 						address.getText(),
 						propertyName.getText(),
@@ -534,63 +524,54 @@ public class frontend {
 			updateProperty();
 		}
 
-		private void createBuilding()
-		{
+		private void createBuilding() {
 			JTextField name = new JTextField();
 			JTextField sqFoot = new JTextField();
 
 			Object[] prompt = {"Building Name: ", name,
-								"Square Foot: ", sqFoot};
+					"Square Foot: ", sqFoot};
 
 			int option = JOptionPane.showConfirmDialog(null, prompt, "Create Building", JOptionPane.OK_CANCEL_OPTION);
 
-			if (option == JOptionPane.OK_OPTION)
-			{
+			if (option == JOptionPane.OK_OPTION) {
 				cProperty.buildings.add(new building(name.getText(), Integer.parseInt(sqFoot.getText())));
 				updateBuilding();
 			}
 		}
 
-		private void createFloor()
-		{
+		private void createFloor() {
 			JTextField level = new JTextField();
 
 			Object[] prompt = {"Floor Level: ", level};
 
 			int option = JOptionPane.showConfirmDialog(null, prompt, "Create Floor", JOptionPane.OK_CANCEL_OPTION);
 
-			if (option == JOptionPane.OK_OPTION)
-			{
+			if (option == JOptionPane.OK_OPTION) {
 				cBuilding.floors.add(new floor(level.getText()));
 				updateFloor();
 			}
 		}
 
-		private void createRoom()
-		{
+		private void createRoom() {
 			String roomSelection = modifyPanel.getDropList().getSelectedItem().toString();
 
-			if (roomSelection.equals("Attic"))
-			{
+			if (roomSelection.equals("Attic")) {
 				JTextField roomName = new JTextField();
 				JCheckBox finished = new JCheckBox();
 				JTextField sqft = new JTextField();
 
 				Object[] prompt = {"Room Name: ", roomName,
-							"Is Finished: ", finished,
-							"Square Foot: ", sqft};
+						"Is Finished: ", finished,
+						"Square Foot: ", sqft};
 
 				int option = JOptionPane.showConfirmDialog(null, prompt, "Create Attic", JOptionPane.OK_CANCEL_OPTION);
 
-				if (option == JOptionPane.OK_OPTION)
-				{
+				if (option == JOptionPane.OK_OPTION) {
 					cFloor.rooms.add(new attic(roomName.getText(),
-												finished.isSelected(),
-												Integer.parseInt(sqft.getText())));
+							finished.isSelected(),
+							Integer.parseInt(sqft.getText())));
 				}
-			}
-			else if (roomSelection.equals("Bathroom"))
-			{
+			} else if (roomSelection.equals("Bathroom")) {
 				JTextField roomName = new JTextField();
 				JTextField sinkCount = new JTextField();
 				JCheckBox shower = new JCheckBox();
@@ -598,74 +579,91 @@ public class frontend {
 				JTextField sqft = new JTextField();
 
 				Object[] prompt = {"Room Name: ", roomName,
-									"Sink Count: ", sinkCount,
-									"Has Shower: ", shower,
-									"Has Tub: ", tub,
-									"Square Foot: ", sqft};
+						"Sink Count: ", sinkCount,
+						"Has Shower: ", shower,
+						"Has Tub: ", tub,
+						"Square Foot: ", sqft};
 
 				int option = JOptionPane.showConfirmDialog(null, prompt, "Create Bathroom", JOptionPane.OK_CANCEL_OPTION);
 
-				if (option == JOptionPane.OK_OPTION)
-				{
+				if (option == JOptionPane.OK_OPTION) {
 					cFloor.rooms.add(new bathroom(roomName.getText(),
-													Integer.parseInt(sinkCount.getText()),
-													shower.isSelected(),
-													tub.isSelected(),
-													Integer.parseInt(sqft.getText())));
+							Integer.parseInt(sinkCount.getText()),
+							shower.isSelected(),
+							tub.isSelected(),
+							Integer.parseInt(sqft.getText())));
 				}
-			}
-			else if (roomSelection.equals("Bedroom"))
-			{
+			} else if (roomSelection.equals("Bedroom")) {
 				JTextField roomName = new JTextField();
 				JTextField sqf = new JTextField();
 				JCheckBox walkIn = new JCheckBox();
 				JTextField closetSqFoot = new JTextField();
 
 				Object[] prompt = {"Room Name: ", roomName,
-									"Square Foot: ", sqf,
-									"Walk in Closet: ", walkIn,
-									"Closet Square Foot: ", closetSqFoot};
+						"Square Foot: ", sqf,
+						"Walk in Closet: ", walkIn,
+						"Closet Square Foot: ", closetSqFoot};
 
 				int option = JOptionPane.showConfirmDialog(null, prompt, "Create Bedroom", JOptionPane.OK_CANCEL_OPTION);
 
-				if (option == JOptionPane.OK_OPTION)
-				{
+				if (option == JOptionPane.OK_OPTION) {
 					cFloor.rooms.add(new bedroom(roomName.getText(),
-									Integer.parseInt(sqf.getText()),
-									walkIn.isSelected(),
-									Integer.parseInt(closetSqFoot.getText())));
+							Integer.parseInt(sqf.getText()),
+							walkIn.isSelected(),
+							Integer.parseInt(closetSqFoot.getText())));
 				}
-			}
-			else if(roomSelection.equals("Utility"))
-			{
+			} else if (roomSelection.equals("Kitchen")) {
+				JTextField roomName = new JTextField();
+				JTextField sinkCount = new JTextField();
+				JTextField rangeCount = new JTextField();
+				JTextField counterType = new JTextField();
+				JCheckBox vent = new JCheckBox();
+				JTextField squareFoot = new JTextField();
+
+				Object[] prompt = {"Room Name: ", roomName,
+						"Sink Count: ", sinkCount,
+						"Stove Count: ", rangeCount,
+						"Counter Type: ", counterType,
+						"Vent: ", vent,
+						"Square Foot: ", squareFoot};
+
+				int option = JOptionPane.showConfirmDialog(null, prompt, "Create Kitchen", JOptionPane.OK_CANCEL_OPTION);
+
+				if (option == JOptionPane.OK_OPTION) {
+					cFloor.rooms.add(new kitchen(roomName.getText(),
+							Integer.parseInt(sinkCount.getText()),
+							Integer.parseInt(rangeCount.getText()),
+							counterType.getText(),
+							vent.isSelected(),
+							Integer.parseInt(squareFoot.getText())));
+				}
+
+			} else if (roomSelection.equals("Utility")) {
 				JCheckBox waterHeater = new JCheckBox();
 				JCheckBox furnace = new JCheckBox();
 				JCheckBox airCon = new JCheckBox();
 
 				Object[] prompt = {"Has Water Heater: ", waterHeater,
-									"Has Furnace: ", furnace,
-									"Has Air Conditioner: ", airCon};
+						"Has Furnace: ", furnace,
+						"Has Air Conditioner: ", airCon};
 
 				int option = JOptionPane.showConfirmDialog(null, prompt, "Create Utility Room", JOptionPane.OK_CANCEL_OPTION);
 
-				if (option == JOptionPane.OK_OPTION)
-				{
+				if (option == JOptionPane.OK_OPTION) {
 					cFloor.rooms.add(new utility(waterHeater.isSelected(),
-													furnace.isSelected(),
-													airCon.isSelected()));
+							furnace.isSelected(),
+							airCon.isSelected()));
 				}
-			}
-			else if(roomSelection.equals("Default"))
-			{
+			} else if (roomSelection.equals("Default")) {
 				JTextField roomName = new JTextField();
 				JTextField sqFoot = new JTextField();
 				JTextField windowCount = new JTextField();
 				JTextField outletCount = new JTextField();
 
 				Object[] prompt = {"Room Name: ", roomName,
-									"Square Foot: ", sqFoot,
-									"Number of Windows: ", windowCount,
-									"Number of Outlets: ", outletCount};
+						"Square Foot: ", sqFoot,
+						"Number of Windows: ", windowCount,
+						"Number of Outlets: ", outletCount};
 
 				int option = JOptionPane.showConfirmDialog(null, prompt, "Create Room", JOptionPane.OK_CANCEL_OPTION);
 
@@ -677,7 +675,7 @@ public class frontend {
 				}
 			}
 
-				updateRoom();
+			updateRoom();
 		}
 	}
 
@@ -685,10 +683,8 @@ public class frontend {
 		public void actionPerformed(ActionEvent e) {
 			int selection = listPanel.getList().getSelectedIndex();
 
-			if (selection >= 0)
-			{
-				switch (state)
-				{
+			if (selection >= 0) {
+				switch (state) {
 					case PROPERTY:
 						properties.remove(selection);
 						updateProperty();
@@ -723,20 +719,18 @@ public class frontend {
 
 	private class lModifyButton implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			 
+
 			int selection = listPanel.getList().getSelectedIndex();
 
-			if (selection >= 0)
-			{
-				switch (state)
-				{
+			if (selection >= 0) {
+				switch (state) {
 					case PROPERTY:
 						cProperty = properties.get(selection);
 						updateBuilding();
 						updateConditionPanel();
-						
-					state = displayState.BUILDING;
-					updateDetailPanel();
+
+						state = displayState.BUILDING;
+						updateDetailPanel();
 						break;
 
 					case BUILDING:
@@ -745,7 +739,7 @@ public class frontend {
 						updateConditionPanel();
 						updateDetailPanel();
 						state = displayState.FLOOR;
-						
+
 						break;
 
 					case FLOOR:
@@ -756,11 +750,31 @@ public class frontend {
 						state = displayState.ROOM;
 						break;
 					case ROOM:
-						
 						updateConditionPanel();
 						updateDetailPanel();
 				}
 			}
+		}
+	}
+
+
+	///////////////
+	// LISTENERS //
+	///////////////
+
+	private class lAbout implements ActionListener {
+
+		String credit = "Orange Canyon Software\n\n" +
+				"Eric Downie\n" +
+				"Yixuan Leng\n" +
+				"Carl Jason Plojo\n" +
+				"Tyren Villanueva";
+
+		@Override
+		public void actionPerformed(ActionEvent event) {
+
+			JOptionPane.showMessageDialog(null, credit, "About", JOptionPane.PLAIN_MESSAGE);
+			System.out.println("here");
 		}
 	}
 }

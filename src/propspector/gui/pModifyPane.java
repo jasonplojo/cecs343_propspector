@@ -7,12 +7,14 @@ public class pModifyPane extends JPanel{
 
     private JComboBox dropList;
     private JLabel label;
+    private JButton button;
 
     public pModifyPane()
     {
         this.setLayout(new GridBagLayout());
 
         label = new JLabel();
+        button = new JButton();
 
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -42,6 +44,11 @@ public class pModifyPane extends JPanel{
     public JComboBox getDropList()
     {
         return dropList;
+    }
+
+    public JButton getButton()
+    {
+        return button;
     }
 
     public void setTitle(String title)
